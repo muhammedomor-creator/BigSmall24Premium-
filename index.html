@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>জেমিনাই এআই হাইব্রিড ইঞ্জিন</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #020617 0%, #0b0f19 100%);
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
+            --big-color: #ef4444;
+            --big-glow: 0 0 25px rgba(239, 68, 68, 0.4);
+            --small-color: #06b6d4;
+            --small-glow: 0 0 25px rgba(6, 182, 212, 0.4);
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 460px;
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        /* Settings Gear Icon */
+        .settings-btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .settings-btn:hover { color: #fff; }
+
+        .panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Settings Modal Panel */
+        #settings-panel {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+        #settings-panel label { font-size: 0.85rem; color: #cbd5e1; }
+        #settings-panel input {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 14px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff;
+        }
+
+        .btn-b { background: linear-gradient(135deg, #ef4444, #991b1b); box-shadow: var(--big-glow); }
+        .btn-b:active { transform: scale(0.97); }
+        .btn-s { background: linear-gradient(135deg, #06b6d4, #0f766e); box-shadow: var(--small-glow); }
+        .btn-s:active { transform: scale(0.97); }
+
+        .history-stream {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 14px;
+            margin: 15px 0;
+            max-height: 85px;
+            overflow-y: auto;
+        }
+
+        .dot {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+        }
+        .dot-B { background: var(--big-color); }
+        .dot-S { background: var(--small-color); }
+
+        #dashboard { display: none; flex-direction: column; gap: 15px; }
+
+        .display-output {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin: 10px 0;
+            letter-spacing: 1px;
+        }
+        .out-b { color: var(--big-color); text-shadow: var(--big-glow); }
+        .out-s { color: var(--small-color); text-shadow: var(--small-glow); }
+
+        .calculating {
+            animation: pulse 1.2s infinite ease-in-out;
+            color: var(--text-muted);
+            font-size: 1.8rem;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        .btn-verify {
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.02);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-yes { border-color: var(--success); color: var(--success); }
+        .btn-no { border-color: var(--big-color); color: var(--big-color); }
+        .btn-yes:active { background: rgba(16, 185, 129, 0.1); }
+        .btn-no:active { background: rgba(239, 68, 68, 0.1); }
+
+        .footer-metrics {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            padding-top: 12px;
+            margin-top: 10px;
+        }
+
+        .reset-link {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>জেমিনাই এআই ক্লাউড ইঞ্জিন</h1>
+        <p>সমন্বিত মনস্তাত্ত্বিক ও কৃত্রিম বুদ্ধিমত্তা বিশ্লেষণ</p>
+        <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+    </header>
+
+    <div id="settings-panel" class="panel">
+        <label for="apiKeyField">Gemini API Key (ব্রাউজারে সেভ থাকবে):</label>
+        <input type="password" id="apiKeyField" placeholder="AIzaSy..." onchange="saveApiKey()">
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">কি লিমিট শেষ হলে এখানে নতুন কি বসিয়ে আপডেট করতে পারবেন।</p>
+    </div>
+
+    <div id="setup-phase" class="panel">
+        <p style="font-size: 0.9rem; color: #e2e8f0;">সিস্টেম সক্রিয় করতে গেমের শেষ ১০টি ফলাফল দিন:</p>
+        <div class="history-stream" id="setupStream"></div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);">সংগৃহীত ইনপুট: <span id="setupCounter" style="color:#fff; font-weight:bold;">0</span> / 10</div>
+        <div class="grid-2">
+            <button class="btn btn-b" onclick="inputSetupData('B')">বড় (BIG)</button>
+            <button class="btn btn-s" onclick="inputSetupData('S')">ছোট (SMALL)</button>
+        </div>
+    </div>
+
+    <div id="dashboard">
+        <div class="panel">
+            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">পরবর্তী এআই প্রস্তাবিত চাল</div>
+            <div id="predictionDisplay" class="display-output">--</div>
+            
+            <div class="footer-metrics">
+                <span>স্মার্ট মেমরি সাইজ: <strong id="lbl-total-rounds" style="color: #fff;">0</strong> / 1000</span>
+                <span id="lbl-status" style="color: var(--success);">লোকাল হাইব্রিড মোড</span>
+            </div>
+        </div>
+
+        <div class="panel">
+            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 12px;">এই রাউন্ডের ফলাফল যাচাই করুন:</p>
+            <div class="grid-2" style="margin-top: 0;">
+                <button class="btn-verify btn-yes" onclick="verifyRoundResult(true)">✓ সঠিক হয়েছে</button>
+                <button class="btn-verify btn-no" onclick="verifyRoundResult(false)">✗ ভুল হয়েছে</button>
+            </div>
+        </div>
+
+        <center><button class="reset-link" onclick="triggerHardReset()">সম্পূর্ণ মেমোরি ফ্ল্যাশ করুন</button></center>
+    </div>
+</div>
+
+<script>
+    let globalHistory = [];
+    const MAX_CYCLES = 1000;
+    const MIN_SETUP = 10;
+
+    let nextPredictedOutcome = '';
+    let consecutiveErrors = 0;
+
+    // পেজ লোড হওয়ার সময় লোকাল স্টোরেজ থেকে এপিআই কি লোড করা
+    window.onload = function() {
+        const savedKey = localStorage.getItem('gemini_api_key');
+        if (savedKey) {
+            document.getElementById('apiKeyField').value = savedKey;
+        }
+    }
+
+    function toggleSettings() {
+        const panel = document.getElementById('settings-panel');
+        panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function saveApiKey() {
+        const key = document.getElementById('apiKeyField').value.trim();
+        localStorage.setItem('gemini_api_key', key);
+    }
+
+    // ১. ইনিশিয়াল ডাটা কালেকশন
+    function inputSetupData(val) {
+        if (globalHistory.length < MIN_SETUP) {
+            globalHistory.push(val);
+            updateSetupUI();
+            if (globalHistory.length === MIN_SETUP) {
+                setTimeout(() => {
+                    document.getElementById('setup-phase').style.display = 'none';
+                    document.getElementById('dashboard').style.display = 'flex';
+                    processSmartAnalysis();
+                }, 300);
+            }
+        }
+    }
+
+    function updateSetupUI() {
+        const stream = document.getElementById('setupStream');
+        stream.innerHTML = '';
+        globalHistory.forEach(item => {
+            const badge = document.createElement('div');
+            badge.className = `dot dot-${item}`;
+            badge.innerText = item;
+            stream.appendChild(badge);
+        });
+        document.getElementById('setupCounter').innerText = globalHistory.length;
+    }
+
+    // ২. জেমিনাই ক্লাউড এপিআই রিকোয়েস্ট ইঞ্জিন (CORS এবং নতুন ফরম্যাট ফিক্সড)
+    async function fetchGeminiPrediction(historyData) {
+        const apiKey = localStorage.getItem('gemini_api_key');
+        if (!apiKey) return null; // কি না থাকলে নাল রিটার্ন করবে
+
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        
+        // এআই-কে নিখুঁত গাইডলাইন দেওয়ার জন্য প্রম্পট ইঞ্জিনিয়ারিং
+        const promptText = `You are an elite data scientist tracking a big/small game sequence. 
+        Recent History: [${historyData.join(', ')}]. 
+        Your goal is to minimize consecutive prediction errors. Analyze patterns, recent streaks, and trend switches. 
+        Predict the next single outcome. Respond with exactly one character, either 'B' (for Big) or 'S' (for Small). Do not write anything else.`;
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: promptText }] }]
+                })
+            });
+
+            if (!response.ok) return null;
+
+            const data = await response.json();
+            const resultText = data.candidates[0].content.parts[0].text.trim().toUpperCase();
+            
+            if (resultText.includes('B')) return 'B';
+            if (resultText.includes('S')) return 'S';
+            return null;
+        } catch (error) {
+            console.error("Gemini API Error:", error);
+            return null; // কোনো এরর হলে লোকাল ব্যাকআপে যাবে
+        }
+    }
+
+    // ৩. সমন্বিত কোর বিশ্লেষণ সিস্টেম (AI + Local Hybrid Fallback)
+    async function processSmartAnalysis() {
+        const display = document.getElementById('predictionDisplay');
+        const status = document.getElementById('lbl-status');
+
+        display.innerText = "বিশ্লেষণ হচ্ছে...";
+        display.className = "display-output calculating";
+
+        let aiResult = await fetchGeminiPrediction(globalHistory.slice(-40)); // শেষ ৪০টি রাউন্ড পাঠানো হচ্ছে
+
+        if (aiResult) {
+            // যদি জেমিনাই সাকসেসফুলি উত্তর দেয়
+            nextPredictedOutcome = aiResult;
+            status.innerText = "জেমিনাই ক্লাউড সক্রিয় ⚡";
+            status.style.color = "#a855f7"; // পার্পল কালার ফর এআই
+        } else {
+            // ৪. ফলব্যাক লজিক: এপিআই কাজ না করলে এই ব্যাকআপ ৭৫/২৫ হাইব্রিড অ্যালগরিদম সচল হবে
+            let sample = globalHistory.slice(-3).join('');
+            let nextB = 0, nextS = 0, found = 0;
+            
+            for (let i = 0; i < globalHistory.length - 3; i++) {
+                if (globalHistory.slice(i, i + 3).join('') === sample) {
+                    found++;
+                    if (globalHistory[i + 3] === 'B') nextB++;
+                    if (globalHistory[i + 3] === 'S') nextS++;
+                }
+            }
+            let rawB = found > 0 ? (nextB / found) * 100 : 50;
+            let hybridB = ((rawB > 50 ? 35 : 65) * 0.75) + (rawB * 0.25);
+            nextPredictedOutcome = hybridB >= 50 ? 'B' : 'S';
+            
+            status.innerText = "লোকাল হাইব্রিড সক্রিয় (ব্যাকআপ)";
+            status.style.color = "var(--success)";
+        }
+
+        // ৫. পরপর ভুল সংখ্যা কমানোর লাইভ সেফটি গার্ড (Error Prevention)
+        if (consecutiveErrors >= 2) {
+            nextPredictedOutcome = nextPredictedOutcome === 'B' ? 'S' : 'B';
+        }
+
+        // UI রেন্ডার করা
+        if (nextPredictedOutcome === 'B') {
+            display.innerText = "বড় (BIG)";
+            display.className = "display-output out-b";
+        } else {
+            display.innerText = "ছোট (SMALL)";
+            display.className = "display-output out-s";
+        }
+
+        if (consecutiveErrors > 0) {
+            display.innerText += " ⚠️";
+        }
+        document.getElementById('lbl-total-rounds').innerText = globalHistory.length;
+    }
+
+    // ৪. লাইভ ডাটা ভেরিফিকেশন ও মেমরি পুশ
+    function verifyRoundResult(isCorrect) {
+        let actualValue = nextPredictedOutcome;
+
+        if (isCorrect) {
+            consecutiveErrors = 0;
+        } else {
+            consecutiveErrors++;
+            actualValue = nextPredictedOutcome === 'B' ? 'S' : 'B';
+        }
+
+        // ১০০০ রাউন্ড মেমরি লিমিট ব্যালেন্সিং
+        if (globalHistory.length >= MAX_CYCLES) {
+            globalHistory.shift();
+        }
+
+        globalHistory.push(actualValue);
+        processSmartAnalysis();
+    }
+
+    // ৫. ফ্ল্যাশ মেমরি
+    function triggerHardReset() {
+        if (confirm("আপনি কি নিশ্চিত যে সম্পূর্ণ সেশন মেমোরি মুছে ফেলতে চান?")) {
+            globalHistory = [];
+            consecutiveErrors = 0;
+            document.getElementById('setupStream').innerHTML = '';
+            document.getElementById('setupCounter').innerText = '0';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('setup-phase').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
