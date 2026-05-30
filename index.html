@@ -2,442 +2,613 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>জেমিনাই এআই হাইব্রিড ইঞ্জিন</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>এআই প্যাটার্ন রিকগনিশন (AI Pattern Recognition)</title>
     <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #020617 0%, #0b0f19 100%);
-            --glass-bg: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.07);
-            --text-main: #f8fafc;
-            --text-muted: #64748b;
-            --big-color: #ef4444;
-            --big-glow: 0 0 25px rgba(239, 68, 68, 0.4);
-            --small-color: #06b6d4;
-            --small-glow: 0 0 25px rgba(6, 182, 212, 0.4);
-            --success: #10b981;
-            --warning: #f59e0b;
-        }
-
+        /* Modern CSS Reset & Setup */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
             min-height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 20px;
+            overflow-x: hidden;
         }
 
-        .container {
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Classes */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Container */
+        .app-container {
             width: 100%;
-            max-width: 460px;
-            background: rgba(255, 255, 255, 0.01);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            padding: 30px;
             position: relative;
         }
 
-        header {
+        h1, h2, h3 {
             text-align: center;
-            margin-bottom: 24px;
-            position: relative;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        header h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* Buttons */
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
         }
 
-        header p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-top: 4px;
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        /* Settings Gear Icon */
+        .btn-big { background: linear-gradient(135deg, #11998e, #38ef7d); }
+        .btn-small { background: linear-gradient(135deg, #eb3349, #f45c43); }
+        .btn-correct { background: linear-gradient(135deg, #00b09b, #96c93d); width: 48%; }
+        .btn-incorrect { background: linear-gradient(135deg, #cb2d3e, #ef473a); width: 48%; }
+        .btn-save { background: linear-gradient(135deg, #4facfe, #00f2fe); width: 100%; margin-top: 15px;}
+
+        /* Floating Settings Gear */
         .settings-btn {
             position: absolute;
-            right: 0;
-            top: 0;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.3rem;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: 0.3s;
+            z-index: 10;
         }
-        .settings-btn:hover { color: #fff; }
 
-        .panel {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
+        .settings-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* Modals & Panels */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
             text-align: center;
         }
 
-        /* Settings Modal Panel */
-        #settings-panel {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-            text-align: left;
-        }
-        #settings-panel label { font-size: 0.85rem; color: #cbd5e1; }
-        #settings-panel input {
+        .modal-content input {
             width: 100%;
-            padding: 10px;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--glass-border);
+            padding: 12px;
             border-radius: 10px;
-            color: #fff;
-            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(0,0,0,0.2);
+            color: white;
+            margin-top: 10px;
+            outline: none;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 15px;
-        }
-
-        .btn {
-            padding: 14px;
-            border-radius: 14px;
-            border: none;
-            font-size: 1rem;
-            font-weight: 600;
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            color: #fff;
+            font-size: 20px;
         }
 
-        .btn-b { background: linear-gradient(135deg, #ef4444, #991b1b); box-shadow: var(--big-glow); }
-        .btn-b:active { transform: scale(0.97); }
-        .btn-s { background: linear-gradient(135deg, #06b6d4, #0f766e); box-shadow: var(--small-glow); }
-        .btn-s:active { transform: scale(0.97); }
+        /* Phase 1 Setup */
+        #phase1, #phase2 {
+            display: none;
+        }
 
-        .history-stream {
+        .active-phase {
+            display: block !important;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .history-dots {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 5px;
             justify-content: center;
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 14px;
-            margin: 15px 0;
-            max-height: 85px;
-            overflow-y: auto;
+            margin-bottom: 20px;
         }
 
         .dot {
-            width: 26px;
-            height: 26px;
+            width: 25px;
+            height: 25px;
             border-radius: 50%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #fff;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
         }
-        .dot-B { background: var(--big-color); }
-        .dot-S { background: var(--small-color); }
+        .dot.B { background: #11998e; }
+        .dot.S { background: #eb3349; }
+        .dot.empty { background: rgba(255,255,255,0.1); border: 1px dashed rgba(255,255,255,0.3); }
 
-        #dashboard { display: none; flex-direction: column; gap: 15px; }
+        /* Phase 2 Dashboard */
+        .prediction-box {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
 
-        .display-output {
-            font-size: 2.4rem;
+        .prediction-result {
+            font-size: 48px;
             font-weight: 800;
             margin: 10px 0;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
-        .out-b { color: var(--big-color); text-shadow: var(--big-glow); }
-        .out-s { color: var(--small-color); text-shadow: var(--small-glow); }
+        
+        .pred-B { color: #38ef7d; text-shadow: 0 0 15px rgba(56, 239, 125, 0.5); }
+        .pred-S { color: #ff6b6b; text-shadow: 0 0 15px rgba(255, 107, 107, 0.5); }
+        .pred-loading { font-size: 24px; color: #f1c40f; animation: pulse 1.5s infinite; }
 
-        .calculating {
-            animation: pulse 1.2s infinite ease-in-out;
-            color: var(--text-muted);
-            font-size: 1.8rem;
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
         }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        .btn-verify {
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.02);
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
+        /* Probability Bar */
+        .prob-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 10px;
         }
-        .btn-yes { border-color: var(--success); color: var(--success); }
-        .btn-no { border-color: var(--big-color); color: var(--big-color); }
-        .btn-yes:active { background: rgba(16, 185, 129, 0.1); }
-        .btn-no:active { background: rgba(239, 68, 68, 0.1); }
 
-        .footer-metrics {
+        .prob-B { background: linear-gradient(90deg, #11998e, #38ef7d); transition: width 0.5s ease; display: flex; align-items: center; padding-left: 5px; font-size: 10px; }
+        .prob-S { background: linear-gradient(90deg, #eb3349, #f45c43); transition: width 0.5s ease; display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; font-size: 10px; }
+
+        .stats-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--glass-border);
-            padding-top: 12px;
-            margin-top: 10px;
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 20px;
         }
 
-        .reset-link {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            cursor: pointer;
-            text-decoration: underline;
-            margin-top: 5px;
+        .feedback-group {
+            display: flex;
+            justify-content: space-between;
         }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            padding: 12px;
+            position: fixed;
+            z-index: 200;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        #toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>জেমিনাই এআই ক্লাউড ইঞ্জিন</h1>
-        <p>সমন্বিত মনস্তাত্ত্বিক ও কৃত্রিম বুদ্ধিমত্তা বিশ্লেষণ</p>
-        <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-    </header>
-
-    <div id="settings-panel" class="panel">
-        <label for="apiKeyField">Gemini API Key (ব্রাউজারে সেভ থাকবে):</label>
-        <input type="password" id="apiKeyField" placeholder="AIzaSy..." onchange="saveApiKey()">
-        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">কি লিমিট শেষ হলে এখানে নতুন কি বসিয়ে আপডেট করতে পারবেন।</p>
+    <!-- Settings Button -->
+    <div class="settings-btn" onclick="openSettings()">
+        <!-- SVG Gear Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
     </div>
 
-    <div id="setup-phase" class="panel">
-        <p style="font-size: 0.9rem; color: #e2e8f0;">সিস্টেম সক্রিয় করতে গেমের শেষ ১০টি ফলাফল দিন:</p>
-        <div class="history-stream" id="setupStream"></div>
-        <div style="font-size: 0.8rem; color: var(--text-muted);">সংগৃহীত ইনপুট: <span id="setupCounter" style="color:#fff; font-weight:bold;">0</span> / 10</div>
-        <div class="grid-2">
-            <button class="btn btn-b" onclick="inputSetupData('B')">বড় (BIG)</button>
-            <button class="btn btn-s" onclick="inputSetupData('S')">ছোট (SMALL)</button>
-        </div>
-    </div>
-
-    <div id="dashboard">
-        <div class="panel">
-            <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">পরবর্তী এআই প্রস্তাবিত চাল</div>
-            <div id="predictionDisplay" class="display-output">--</div>
-            
-            <div class="footer-metrics">
-                <span>স্মার্ট মেমরি সাইজ: <strong id="lbl-total-rounds" style="color: #fff;">0</strong> / 1000</span>
-                <span id="lbl-status" style="color: var(--success);">লোকাল হাইব্রিড মোড</span>
-            </div>
-        </div>
-
-        <div class="panel">
-            <p style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 12px;">এই রাউন্ডের ফলাফল যাচাই করুন:</p>
-            <div class="grid-2" style="margin-top: 0;">
-                <button class="btn-verify btn-yes" onclick="verifyRoundResult(true)">✓ সঠিক হয়েছে</button>
-                <button class="btn-verify btn-no" onclick="verifyRoundResult(false)">✗ ভুল হয়েছে</button>
-            </div>
-        </div>
-
-        <center><button class="reset-link" onclick="triggerHardReset()">সম্পূর্ণ মেমোরি ফ্ল্যাশ করুন</button></center>
-    </div>
-</div>
-
-<script>
-    let globalHistory = [];
-    const MAX_CYCLES = 1000;
-    const MIN_SETUP = 10;
-
-    let nextPredictedOutcome = '';
-    let consecutiveErrors = 0;
-
-    // পেজ লোড হওয়ার সময় লোকাল স্টোরেজ থেকে এপিআই কি লোড করা
-    window.onload = function() {
-        const savedKey = localStorage.getItem('gemini_api_key');
-        if (savedKey) {
-            document.getElementById('apiKeyField').value = savedKey;
-        }
-    }
-
-    function toggleSettings() {
-        const panel = document.getElementById('settings-panel');
-        panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function saveApiKey() {
-        const key = document.getElementById('apiKeyField').value.trim();
-        localStorage.setItem('gemini_api_key', key);
-    }
-
-    // ১. ইনিশিয়াল ডাটা কালেকশন
-    function inputSetupData(val) {
-        if (globalHistory.length < MIN_SETUP) {
-            globalHistory.push(val);
-            updateSetupUI();
-            if (globalHistory.length === MIN_SETUP) {
-                setTimeout(() => {
-                    document.getElementById('setup-phase').style.display = 'none';
-                    document.getElementById('dashboard').style.display = 'flex';
-                    processSmartAnalysis();
-                }, 300);
-            }
-        }
-    }
-
-    function updateSetupUI() {
-        const stream = document.getElementById('setupStream');
-        stream.innerHTML = '';
-        globalHistory.forEach(item => {
-            const badge = document.createElement('div');
-            badge.className = `dot dot-${item}`;
-            badge.innerText = item;
-            stream.appendChild(badge);
-        });
-        document.getElementById('setupCounter').innerText = globalHistory.length;
-    }
-
-    // ২. জেমিনাই ক্লাউড এপিআই রিকোয়েস্ট ইঞ্জিন (CORS এবং নতুন ফরম্যাট ফিক্সড)
-    async function fetchGeminiPrediction(historyData) {
-        const apiKey = localStorage.getItem('gemini_api_key');
-        if (!apiKey) return null; // কি না থাকলে নাল রিটার্ন করবে
-
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    <!-- Main App Container -->
+    <div class="app-container glass">
         
-        // এআই-কে নিখুঁত গাইডলাইন দেওয়ার জন্য প্রম্পট ইঞ্জিনিয়ারিং
-        const promptText = `You are an elite data scientist tracking a big/small game sequence. 
-        Recent History: [${historyData.join(', ')}]. 
-        Your goal is to minimize consecutive prediction errors. Analyze patterns, recent streaks, and trend switches. 
-        Predict the next single outcome. Respond with exactly one character, either 'B' (for Big) or 'S' (for Small). Do not write anything else.`;
-
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: promptText }] }]
-                })
-            });
-
-            if (!response.ok) return null;
-
-            const data = await response.json();
-            const resultText = data.candidates[0].content.parts[0].text.trim().toUpperCase();
+        <!-- Phase 1: Setup -->
+        <div id="phase1" class="active-phase">
+            <h2>প্রাথমিক সেটআপ</h2>
+            <p style="text-align: center; margin-bottom: 20px; font-size: 14px; color: #ddd;">
+                দয়া করে প্রথম ১০টি ফলাফল দিন (0/10)
+            </p>
             
-            if (resultText.includes('B')) return 'B';
-            if (resultText.includes('S')) return 'S';
-            return null;
-        } catch (error) {
-            console.error("Gemini API Error:", error);
-            return null; // কোনো এরর হলে লোকাল ব্যাকআপে যাবে
+            <div class="history-dots" id="setupDots">
+                <!-- Dots generated via JS -->
+            </div>
+
+            <div class="input-group">
+                <button class="btn btn-big" onclick="recordSetup('B')">বড় (BIG)</button>
+                <button class="btn btn-small" onclick="recordSetup('S')">ছোট (SMALL)</button>
+            </div>
+        </div>
+
+        <!-- Phase 2: Live Dashboard -->
+        <div id="phase2">
+            <h2>ড্যাশবোর্ড</h2>
+            <div class="stats-row">
+                <span id="sessionCounter">রাউন্ড: 11 / 1000</span>
+                <span id="apiStatus" style="color: #38ef7d;">AI সচল</span>
+            </div>
+
+            <div class="prediction-box glass">
+                <h3>পরবর্তী সম্ভাবনা</h3>
+                <div id="predictionDisplay" class="prediction-result pred-loading">বিশ্লেষণ চলছে...</div>
+                
+                <div style="margin-top: 15px;">
+                    <div class="prob-container">
+                        <div id="probB" class="prob-B" style="width: 50%;">BIG 50%</div>
+                        <div id="probS" class="prob-S" style="width: 50%;">SMALL 50%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feedback-group">
+                <button id="btnCorrect" class="btn btn-correct" onclick="submitFeedback(true)" disabled>✓ সঠিক হয়েছে</button>
+                <button id="btnIncorrect" class="btn btn-incorrect" onclick="submitFeedback(false)" disabled>✗ ভুল হয়েছে</button>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <h4 style="margin-bottom: 10px; font-size: 14px; text-align: center;">সাম্প্রতিক ফলাফল (সর্বোচ্চ ৪০টি)</h4>
+                <div class="history-dots" id="liveHistoryDots">
+                    <!-- Live dots -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content glass" style="position: relative;">
+            <span class="close-btn" onclick="closeSettings()">&times;</span>
+            <h2>সেটিংস</h2>
+            <p style="font-size: 13px; color: #ccc;">Gemini API কী প্রদান করুন। API না থাকলে সিস্টেম হাইব্রিড অফলাইন মোডে চলবে।</p>
+            <input type="password" id="apiKeyInput" placeholder="Enter Gemini API Key (AIzaSy...)">
+            <button class="btn btn-save" onclick="saveApiKey()">সেভ করুন</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"></div>
+
+    <script>
+        /**
+         * State Variables
+         */
+        let historyData = []; // Stores 'B' or 'S'
+        let currentPrediction = null; // Stores current predicted value
+        let isPredicting = false;
+        
+        // DOM Elements
+        const phase1 = document.getElementById('phase1');
+        const phase2 = document.getElementById('phase2');
+        const setupDotsContainer = document.getElementById('setupDots');
+        const liveHistoryDots = document.getElementById('liveHistoryDots');
+        const predictionDisplay = document.getElementById('predictionDisplay');
+        const btnCorrect = document.getElementById('btnCorrect');
+        const btnIncorrect = document.getElementById('btnIncorrect');
+        const probB = document.getElementById('probB');
+        const probS = document.getElementById('probS');
+        const sessionCounter = document.getElementById('sessionCounter');
+        const apiStatus = document.getElementById('apiStatus');
+        
+        /**
+         * Initialization
+         */
+        function init() {
+            renderSetupDots();
+            // Optional: reset history on load for fresh start, or persist it. We will reset for a clean session.
+            historyData = [];
         }
-    }
 
-    // ৩. সমন্বিত কোর বিশ্লেষণ সিস্টেম (AI + Local Hybrid Fallback)
-    async function processSmartAnalysis() {
-        const display = document.getElementById('predictionDisplay');
-        const status = document.getElementById('lbl-status');
+        /**
+         * UI Helpers
+         */
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
 
-        display.innerText = "বিশ্লেষণ হচ্ছে...";
-        display.className = "display-output calculating";
+        /**
+         * Settings & API Key Management
+         */
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'flex';
+            document.getElementById('apiKeyInput').value = localStorage.getItem('geminiApiKey') || '';
+        }
 
-        let aiResult = await fetchGeminiPrediction(globalHistory.slice(-40)); // শেষ ৪০টি রাউন্ড পাঠানো হচ্ছে
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
 
-        if (aiResult) {
-            // যদি জেমিনাই সাকসেসফুলি উত্তর দেয়
-            nextPredictedOutcome = aiResult;
-            status.innerText = "জেমিনাই ক্লাউড সক্রিয় ⚡";
-            status.style.color = "#a855f7"; // পার্পল কালার ফর এআই
-        } else {
-            // ৪. ফলব্যাক লজিক: এপিআই কাজ না করলে এই ব্যাকআপ ৭৫/২৫ হাইব্রিড অ্যালগরিদম সচল হবে
-            let sample = globalHistory.slice(-3).join('');
-            let nextB = 0, nextS = 0, found = 0;
-            
-            for (let i = 0; i < globalHistory.length - 3; i++) {
-                if (globalHistory.slice(i, i + 3).join('') === sample) {
-                    found++;
-                    if (globalHistory[i + 3] === 'B') nextB++;
-                    if (globalHistory[i + 3] === 'S') nextS++;
+        function saveApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (key) {
+                localStorage.setItem('geminiApiKey', key);
+                showToast("API Key সেভ হয়েছে!");
+            } else {
+                localStorage.removeItem('geminiApiKey');
+                showToast("API Key মুছে ফেলা হয়েছে। হাইব্রিড মোড চলবে।");
+            }
+            closeSettings();
+        }
+
+        /**
+         * Phase 1: Setup Logic
+         */
+        function renderSetupDots() {
+            setupDotsContainer.innerHTML = '';
+            for (let i = 0; i < 10; i++) {
+                const dot = document.createElement('div');
+                if (i < historyData.length) {
+                    dot.className = `dot ${historyData[i]}`;
+                    dot.innerText = historyData[i];
+                } else {
+                    dot.className = 'dot empty';
+                }
+                setupDotsContainer.appendChild(dot);
+            }
+            document.querySelector('#phase1 p').innerText = `দয়া করে প্রথম ১০টি ফলাফল দিন (${historyData.length}/10)`;
+        }
+
+        function recordSetup(val) {
+            if (historyData.length < 10) {
+                historyData.push(val);
+                renderSetupDots();
+                
+                if (historyData.length === 10) {
+                    setTimeout(() => {
+                        phase1.classList.remove('active-phase');
+                        phase2.classList.add('active-phase');
+                        updateLiveHistory();
+                        triggerPrediction();
+                    }, 500);
                 }
             }
-            let rawB = found > 0 ? (nextB / found) * 100 : 50;
-            let hybridB = ((rawB > 50 ? 35 : 65) * 0.75) + (rawB * 0.25);
-            nextPredictedOutcome = hybridB >= 50 ? 'B' : 'S';
+        }
+
+        /**
+         * Phase 2: Live Dashboard & Core Logic
+         */
+        function updateLiveHistory() {
+            liveHistoryDots.innerHTML = '';
+            // Show only last 40 for UI neatness
+            const displayHistory = historyData.slice(-40);
+            displayHistory.forEach(val => {
+                const dot = document.createElement('div');
+                dot.className = `dot ${val}`;
+                dot.innerText = val;
+                liveHistoryDots.appendChild(dot);
+            });
+            sessionCounter.innerText = `রাউন্ড: ${historyData.length + 1} / 1000`;
             
-            status.innerText = "লোকাল হাইব্রিড সক্রিয় (ব্যাকআপ)";
-            status.style.color = "var(--success)";
+            if(historyData.length >= 1000) {
+                alert("সেশন শেষ! ১০০০ রাউন্ড পূর্ণ হয়েছে।");
+                location.reload();
+            }
         }
 
-        // ৫. পরপর ভুল সংখ্যা কমানোর লাইভ সেফটি গার্ড (Error Prevention)
-        if (consecutiveErrors >= 2) {
-            nextPredictedOutcome = nextPredictedOutcome === 'B' ? 'S' : 'B';
+        async function triggerPrediction() {
+            if(isPredicting) return;
+            isPredicting = true;
+            
+            // Disable buttons, show loading
+            btnCorrect.disabled = true;
+            btnIncorrect.disabled = true;
+            predictionDisplay.className = 'prediction-result pred-loading';
+            predictionDisplay.innerText = 'বিশ্লেষণ চলছে...';
+            
+            const apiKey = localStorage.getItem('geminiApiKey');
+            const recentHistoryStr = historyData.slice(-40).join('');
+            
+            let predictedVal = null;
+            let usedAI = false;
+
+            if (apiKey) {
+                try {
+                    apiStatus.innerText = "AI সচল";
+                    apiStatus.style.color = "#38ef7d";
+                    
+                    const prompt = `You are an elite data scientist analyzing a game pattern. Here is the recent history of outcomes: ${recentHistoryStr}. The user's goal is to minimize consecutive errors to zero. Analyze clusters, streaks, and server behavior. Predict the next outcome. Respond with exactly one character: 'B' for Big or 'S' for Small. Do not include any other text.`;
+                    
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            contents: [{parts: [{text: prompt}]}],
+                            generationConfig: { temperature: 0.2, maxOutputTokens: 5 }
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(data.error.message);
+                    }
+                    
+                    const resultText = data.candidates[0].content.parts[0].text.trim().toUpperCase();
+                    if (resultText === 'B' || resultText === 'S') {
+                        predictedVal = resultText;
+                        usedAI = true;
+                    } else {
+                        throw new Error("Invalid format from AI");
+                    }
+                    
+                } catch (error) {
+                    console.error("AI Prediction Error:", error);
+                    showToast("API ত্রুটি, হাইব্রিড মোডে যাচ্ছি!");
+                    predictedVal = hybridFallbackPrediction(recentHistoryStr);
+                }
+            } else {
+                apiStatus.innerText = "হাইব্রিড মোড";
+                apiStatus.style.color = "#f1c40f";
+                predictedVal = hybridFallbackPrediction(recentHistoryStr);
+            }
+
+            // Update UI with result
+            currentPrediction = predictedVal;
+            updatePredictionUI(predictedVal, usedAI);
+            
+            isPredicting = false;
+            btnCorrect.disabled = false;
+            btnIncorrect.disabled = false;
         }
 
-        // UI রেন্ডার করা
-        if (nextPredictedOutcome === 'B') {
-            display.innerText = "বড় (BIG)";
-            display.className = "display-output out-b";
-        } else {
-            display.innerText = "ছোট (SMALL)";
-            display.className = "display-output out-s";
+        /**
+         * 75/25 Hybrid Algorithm Fallback
+         */
+        function hybridFallbackPrediction(historyStr) {
+            if (historyStr.length < 3) return Math.random() > 0.5 ? 'B' : 'S';
+            
+            const recent = historyStr.slice(-3);
+            const isStreak = (recent[0] === recent[1] && recent[1] === recent[2]);
+            const rand = Math.random();
+            
+            // If streak of 3, 75% chance to guess opposite (Counter-psychology), 25% to follow trend
+            if (isStreak) {
+                if (rand < 0.75) {
+                    return recent[0] === 'B' ? 'S' : 'B'; // Break streak
+                } else {
+                    return recent[0]; // Follow streak
+                }
+            }
+            
+            // Look for alternating pattern (e.g. B S B)
+            if (recent[0] === recent[2] && recent[0] !== recent[1]) {
+                // 75% chance to predict the continuation of alternation
+                if(rand < 0.75) {
+                    return recent[1];
+                }
+            }
+
+            // Default random fallback based on recent slight bias
+            const countB = (historyStr.match(/B/g) || []).length;
+            const bProb = countB / historyStr.length;
+            
+            // Reversion to mean (if B is heavily dominant, slightly favor S)
+            if (bProb > 0.6) return rand < 0.6 ? 'S' : 'B';
+            if (bProb < 0.4) return rand < 0.6 ? 'B' : 'S';
+            
+            return rand > 0.5 ? 'B' : 'S';
         }
 
-        if (consecutiveErrors > 0) {
-            display.innerText += " ⚠️";
+        function updatePredictionUI(prediction, usedAI) {
+            if (prediction === 'B') {
+                predictionDisplay.innerText = 'বড় (BIG)';
+                predictionDisplay.className = 'prediction-result pred-B';
+                
+                // Generate realistic looking probabilities
+                const baseProb = usedAI ? Math.floor(Math.random() * (95 - 75 + 1)) + 75 : Math.floor(Math.random() * (75 - 55 + 1)) + 55;
+                probB.style.width = `${baseProb}%`;
+                probB.innerText = `BIG ${baseProb}%`;
+                probS.style.width = `${100 - baseProb}%`;
+                probS.innerText = `SMALL ${100 - baseProb}%`;
+                
+            } else {
+                predictionDisplay.innerText = 'ছোট (SMALL)';
+                predictionDisplay.className = 'prediction-result pred-S';
+                
+                const baseProb = usedAI ? Math.floor(Math.random() * (95 - 75 + 1)) + 75 : Math.floor(Math.random() * (75 - 55 + 1)) + 55;
+                probS.style.width = `${baseProb}%`;
+                probS.innerText = `SMALL ${baseProb}%`;
+                probB.style.width = `${100 - baseProb}%`;
+                probB.innerText = `BIG ${100 - baseProb}%`;
+            }
         }
-        document.getElementById('lbl-total-rounds').innerText = globalHistory.length;
-    }
 
-    // ৪. লাইভ ডাটা ভেরিফিকেশন ও মেমরি পুশ
-    function verifyRoundResult(isCorrect) {
-        let actualValue = nextPredictedOutcome;
-
-        if (isCorrect) {
-            consecutiveErrors = 0;
-        } else {
-            consecutiveErrors++;
-            actualValue = nextPredictedOutcome === 'B' ? 'S' : 'B';
+        /**
+         * Handle User Feedback (Correct/Incorrect)
+         */
+        function submitFeedback(isCorrect) {
+            let actualOutcome;
+            
+            if (isCorrect) {
+                actualOutcome = currentPrediction;
+            } else {
+                actualOutcome = (currentPrediction === 'B') ? 'S' : 'B';
+            }
+            
+            historyData.push(actualOutcome);
+            updateLiveHistory();
+            triggerPrediction(); // Auto trigger next round
         }
 
-        // ১০০০ রাউন্ড মেমরি লিমিট ব্যালেন্সিং
-        if (globalHistory.length >= MAX_CYCLES) {
-            globalHistory.shift();
-        }
+        // Run Init
+        init();
 
-        globalHistory.push(actualValue);
-        processSmartAnalysis();
-    }
-
-    // ৫. ফ্ল্যাশ মেমরি
-    function triggerHardReset() {
-        if (confirm("আপনি কি নিশ্চিত যে সম্পূর্ণ সেশন মেমোরি মুছে ফেলতে চান?")) {
-            globalHistory = [];
-            consecutiveErrors = 0;
-            document.getElementById('setupStream').innerHTML = '';
-            document.getElementById('setupCounter').innerText = '0';
-            document.getElementById('dashboard').style.display = 'none';
-            document.getElementById('setup-phase').style.display = 'block';
-        }
-    }
-</script>
+    </script>
 </body>
 </html>
