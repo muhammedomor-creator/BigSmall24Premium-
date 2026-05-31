@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Noto Sans Bengali -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Phosphor Icons for UI elements -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <script>
@@ -23,6 +23,7 @@
                         neonBlue: '#00f2fe',
                         neonGreen: '#00ff87',
                         neonRed: '#ff3366',
+                        neonOrange: '#f5af19',
                     }
                 }
             }
@@ -35,7 +36,7 @@
             --bg-color: #050508;
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.7);
-            --card-bg: rgba(15, 17, 26, 0.7);
+            --card-bg: rgba(15, 17, 26, 0.75);
             --box-bg: rgba(0, 0, 0, 0.4);
             --border-color: rgba(0, 242, 254, 0.2);
             --border-inner: rgba(255, 255, 255, 0.1);
@@ -79,16 +80,14 @@
         }
 
         .text-muted { color: var(--text-secondary); }
-
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Advanced Animations */
+        /* Animations */
         @keyframes pulseGlowB {
             0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 254, 0.3), inset 0 0 20px rgba(0, 242, 254, 0.3); border-color: #00f2fe; }
             50% { box-shadow: 0 0 50px rgba(0, 242, 254, 0.6), inset 0 0 30px rgba(0, 242, 254, 0.6); border-color: var(--text-primary); }
         }
-        
         @keyframes pulseGlowS {
             0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 135, 0.3), inset 0 0 20px rgba(0, 255, 135, 0.3); border-color: #00ff87; }
             50% { box-shadow: 0 0 50px rgba(0, 255, 135, 0.6), inset 0 0 30px rgba(0, 255, 135, 0.6); border-color: var(--text-primary); }
@@ -108,21 +107,18 @@
             font-weight: 800;
             font-size: 1.1rem;
             flex-shrink: 0;
-            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease-out forwards;
             border: 1px solid var(--border-inner);
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(30px) scale(0.8); }
+            from { opacity: 0; transform: translateX(20px) scale(0.9); }
             to { opacity: 1; transform: translateX(0) scale(1); }
         }
 
-        /* Modals Overlay */
         .modal-overlay {
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             z-index: 9999;
         }
         
@@ -133,15 +129,9 @@
         }
         
         .google-btn {
-            background: white;
-            color: #444;
-            transition: all 0.3s;
-            border: 1px solid #ddd;
+            background: white; color: #444; transition: all 0.3s; border: 1px solid #ddd;
         }
-        .google-btn:hover {
-            box-shadow: 0 4px 20px rgba(255,255,255,0.4);
-            transform: translateY(-2px);
-        }
+        .google-btn:hover { box-shadow: 0 4px 20px rgba(255,255,255,0.4); transform: translateY(-2px); }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center relative pb-10">
@@ -184,31 +174,35 @@
             </button>
         </div>
 
-        <!-- History Tape (Local Session) -->
+        <!-- Personal History Tape -->
         <div class="glass-panel p-5 rounded-2xl">
             <div class="flex justify-between items-center mb-3">
-                <h3 class="text-[11px] font-bold text-muted uppercase tracking-widest"><i class="ph ph-clock-counter-clockwise mr-1"></i> আপনার সেশন হিস্টোরি</h3>
+                <h3 class="text-[11px] font-bold text-muted uppercase tracking-widest"><i class="ph ph-clock-counter-clockwise mr-1"></i> আপনার নিজস্ব হিস্টোরি</h3>
                 <button id="resetLocalBtn" class="text-[10px] bg-red-500/10 text-red-500 hover:bg-red-500/20 px-3 py-1 rounded-full border border-red-500/20 transition-colors flex items-center gap-1">
-                    <i class="ph ph-trash"></i> রিসেট
+                    <i class="ph ph-trash"></i> মুছে ফেলুন
                 </button>
             </div>
             <div class="flex overflow-x-auto hide-scrollbar gap-2.5 py-3 px-2" id="historyContainer" style="background: var(--history-bg); border-radius: 14px; border: 1px solid var(--border-inner);">
-                <!-- Filled via JS -->
                 <span class="text-xs text-muted p-2 font-semibold mx-auto">ফলাফল যোগ করা শুরু করুন...</span>
             </div>
         </div>
 
-        <!-- Engine Prediction Display -->
+        <!-- Advanced Engine Prediction Display -->
         <div class="glass-panel p-8 rounded-[2rem] flex flex-col items-center relative overflow-hidden">
             <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#00f2fe] mb-8 font-bold flex items-center gap-2">
-                <i class="ph ph-cpu text-lg"></i> গাণিতিক প্রেডিকশন
+                <i class="ph ph-cpu text-lg"></i> হাইব্রিড প্রেডিকশন ইঞ্জিন
             </h2>
             
-            <div class="relative mb-10 mt-2">
+            <div class="relative mb-6 mt-2">
                 <div class="absolute -inset-4 border-2 border-dashed border-gray-400/30 rounded-full animate-[spin_10s_linear_infinite]" id="scanningRing"></div>
                 <div id="predictionOutputBox" class="w-52 h-52 rounded-full border-[5px] flex items-center justify-center inner-box transition-all duration-700 relative z-10 shadow-2xl border-[var(--border-inner)]">
                     <span id="predictionText" class="text-2xl font-bold tracking-wider text-center text-muted">অপেক্ষা করুন...</span>
                 </div>
+            </div>
+
+            <!-- Algorithm Mode Indicator (New Feature from index 20 logic) -->
+            <div id="predModeDisplay" class="bg-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-[#00f2fe] border border-white/10 mb-6 hidden">
+                লজিক লোড হচ্ছে...
             </div>
 
             <!-- Stats Grid -->
@@ -218,8 +212,8 @@
                     <p class="font-black text-xl text-[#00ff87]" id="statConfidence">--%</p>
                 </div>
                 <div class="inner-box p-3.5 rounded-2xl shadow-sm">
-                    <p class="text-[9px] text-muted uppercase mb-1.5 font-bold"><i class="ph ph-chart-line-up mr-1"></i>মার্কেট স্টেট</p>
-                    <p class="font-bold text-sm mt-1 text-[#00f2fe]" id="statMarket">--</p>
+                    <p class="text-[9px] text-muted uppercase mb-1.5 font-bold"><i class="ph ph-shield-check mr-1"></i>নিরাপত্তা</p>
+                    <p class="font-bold text-sm mt-1 text-[#00f2fe]" id="statSafety">--</p>
                 </div>
                 <div class="inner-box p-3.5 rounded-2xl shadow-sm">
                     <p class="text-[9px] text-muted uppercase mb-1.5 font-bold"><i class="ph ph-warning-circle mr-1"></i>এরর/ভুল</p>
@@ -235,10 +229,10 @@
                 <p id="inputCounterDisplay" class="text-[10px] font-bold text-[#00f2fe]">০/১০ দেওয়া হয়েছে</p>
             </div>
             <div class="flex gap-4">
-                <button id="btnInputBig" class="flex-1 bg-gradient-to-br from-[#00f2fe] to-[#0088ff] text-white font-extrabold py-4 rounded-xl shadow-lg hover:scale-[1.04] transition-all flex items-center justify-center gap-2">
+                <button id="btnInputBig" class="flex-1 bg-gradient-to-br from-[#00f2fe] to-[#0088ff] text-white font-extrabold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,242,254,0.3)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/10">
                     <i class="ph-fill ph-arrow-circle-up text-xl"></i> বড় (BIG)
                 </button>
-                <button id="btnInputSmall" class="flex-1 bg-gradient-to-br from-[#00ff87] to-[#00b35c] text-black font-extrabold py-4 rounded-xl shadow-lg hover:scale-[1.04] transition-all flex items-center justify-center gap-2">
+                <button id="btnInputSmall" class="flex-1 bg-gradient-to-br from-[#00ff87] to-[#00b35c] text-black font-extrabold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,255,135,0.3)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/10">
                     <i class="ph-fill ph-arrow-circle-down text-xl"></i> ছোট (SMALL)
                 </button>
             </div>
@@ -258,7 +252,7 @@
                 </div>
             </div>
             <h2 class="text-2xl font-extrabold mb-2">লগইন প্রয়োজন</h2>
-            <p class="text-sm text-muted mb-8">এআই ইঞ্জিন ব্যবহার করতে এবং ডেটা ইনপুট দিতে আপনার একাউন্টে সাইন-ইন করুন।</p>
+            <p class="text-sm text-muted mb-8">পার্সোনাল ডেটাবেস এবং এআই ইঞ্জিন ব্যবহার করতে আপনার একাউন্টে সাইন-ইন করুন।</p>
             <button id="googleLoginBtn" class="google-btn w-full font-bold py-4 rounded-xl flex items-center justify-center gap-3 text-lg">
                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)"><path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/><path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.369 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/><path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/><path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.109 -17.884 43.989 -14.754 43.989 Z"/></g></svg>
                 Google দিয়ে লগইন করুন
@@ -286,7 +280,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -304,13 +298,13 @@
         const provider = new GoogleAuthProvider();
         const db = getFirestore(app);
 
-        // State Variables
+        // System State
         let currentUserData = null;
-        let globalHistory = []; 
-        let localSessionHistory = []; 
+        let userHistory = []; // Only the current user's history!
         let isLightMode = false;
         let timerInterval = null;
         const REQUIRED_INPUTS = 10;
+        const STREAK_THRESHOLD = 4; // As per your logic
 
         // Bengali Numeral Converter
         const bngNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
@@ -324,6 +318,7 @@
         const outBox = document.getElementById('predictionOutputBox');
         const outText = document.getElementById('predictionText');
         const scanningRing = document.getElementById('scanningRing');
+        const predModeDisplay = document.getElementById('predModeDisplay');
         
         // Setup Theme Toggle
         document.getElementById('themeToggleBtn').addEventListener('click', () => {
@@ -342,14 +337,12 @@
                 authModalContent.classList.add('scale-100');
             }, 10);
         }
-
         function closeAuthModal() {
             authModal.classList.add('opacity-0');
             authModalContent.classList.remove('scale-100');
             authModalContent.classList.add('scale-95');
             setTimeout(() => authModal.classList.add('hidden'), 300);
         }
-
         document.getElementById('closeAuthBtn').addEventListener('click', closeAuthModal);
 
         // ---------------- AUTHENTICATION LOGIC ----------------
@@ -357,7 +350,6 @@
             try { 
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                
                 const userRef = doc(db, "users", user.uid);
                 const userSnap = await getDoc(userRef);
                 
@@ -366,7 +358,8 @@
                         email: user.email,
                         displayName: user.displayName,
                         createdAt: Date.now(),
-                        isPremium: false
+                        isPremium: false,
+                        history: [] // Init empty history
                     });
                 }
                 closeAuthModal();
@@ -378,7 +371,7 @@
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
             signOut(auth);
-            localSessionHistory = []; // Clear on logout
+            userHistory = [];
             updateUI();
         });
 
@@ -395,20 +388,18 @@
                 }
 
                 await loadUserProfile(user.uid);
-                startGlobalSync();
                 updateUI();
             } else {
                 document.getElementById('guestBadge').classList.remove('hidden');
                 document.getElementById('logoutBtn').classList.add('hidden');
                 document.getElementById('userNameDisplay').textContent = 'অপরিচিত ইউজার';
                 document.getElementById('trialTimerDisplay').textContent = 'লগইন করুন';
-                document.getElementById('trialTimerDisplay').className = "text-xs text-muted font-semibold tracking-wide";
                 
                 document.getElementById('userAvatar').classList.add('hidden');
                 document.getElementById('userAvatarFallback').classList.remove('hidden');
-                document.getElementById('userAvatarFallback').innerHTML = '<i class="ph ph-user-circle"></i>';
 
                 currentUserData = null;
+                userHistory = [];
                 paywallScreen.classList.add('hidden');
                 dashPremiumBtn.classList.add('hidden');
                 if(timerInterval) clearInterval(timerInterval);
@@ -420,6 +411,8 @@
             const userRef = doc(db, "users", uid);
             let userSnap = await getDoc(userRef);
             currentUserData = userSnap.data();
+            userHistory = currentUserData.history || []; // Load specific user's history
+            
             checkTrialStatus();
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(checkTrialStatus, 60000);
@@ -435,7 +428,6 @@
                 paywallScreen.classList.remove('hidden');
                 setTimeout(() => paywallScreen.classList.remove('opacity-0'), 10);
                 document.getElementById('trialTimerDisplay').textContent = "ট্রায়াল শেষ (Expired)";
-                document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-[#ff3366] tracking-wide";
                 dashPremiumBtn.classList.remove('hidden');
             } else {
                 paywallScreen.classList.add('opacity-0');
@@ -443,20 +435,19 @@
                 
                 if (currentUserData.isPremium) {
                     document.getElementById('trialTimerDisplay').textContent = "প্রিমিয়াম মেম্বার";
-                    document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-[#00ff87] tracking-wide";
+                    document.getElementById('trialTimerDisplay').style.color = "#00ff87";
                     dashPremiumBtn.classList.add('hidden');
                 } else {
                     const remainingMs = hours24Ms - ageMs;
                     const remHours = Math.floor(remainingMs / (1000 * 60 * 60));
                     const remMins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
                     document.getElementById('trialTimerDisplay').textContent = `ট্রায়াল বাকি: ${convertEngToBng(remHours)}ঘ ${convertEngToBng(remMins)}মি`;
-                    document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-[#00f2fe] tracking-wide";
+                    document.getElementById('trialTimerDisplay').style.color = "#00f2fe";
                     dashPremiumBtn.classList.remove('hidden');
                 }
             }
         }
 
-        // WhatsApp Links
         function openWhatsAppPremium() {
             const uid = auth.currentUser ? auth.currentUser.uid : 'GUEST';
             window.open(`https://wa.me/8801572922663?text=Hello,%20I%20want%20to%20activate%20Premium.%20My%20Unique%20ID:%20${uid}`, '_blank');
@@ -465,20 +456,7 @@
         document.getElementById('dashPremiumBtn').addEventListener('click', openWhatsAppPremium);
 
 
-        // ---------------- ENGINE LOGIC & SYNC ----------------
-        const poolRef = doc(db, "global_engine", "shared_pool");
-
-        function startGlobalSync() {
-            onSnapshot(poolRef, async (docSnap) => {
-                if (!docSnap.exists()) {
-                    await setDoc(poolRef, { history: [] });
-                    return;
-                }
-                globalHistory = docSnap.data().history || [];
-                if (localSessionHistory.length >= REQUIRED_INPUTS) updateUI();
-            });
-        }
-
+        // ---------------- INPUT & HISTORY LOGIC ----------------
         async function feedOutcome(outcome) {
             if (!auth.currentUser) {
                 openAuthModal();
@@ -486,15 +464,15 @@
             }
             if (Date.now() - currentUserData.createdAt > 24*3600*1000 && !currentUserData.isPremium) return;
             
-            localSessionHistory.push(outcome);
-            updateUI();
+            userHistory.push(outcome);
+            if (userHistory.length > 1000) userHistory.shift(); // Keep max 1000
+            
+            updateUI(); // Instant update
 
+            // Save ONLY to this user's Firebase Document
             try {
-                const snap = await getDoc(poolRef);
-                let hist = snap.exists() ? (snap.data().history || []) : [];
-                hist.push(outcome);
-                if (hist.length > 200) hist = hist.slice(-200); 
-                await updateDoc(poolRef, { history: hist });
+                const userRef = doc(db, "users", auth.currentUser.uid);
+                await updateDoc(userRef, { history: userHistory });
             } catch(e) {
                 console.error("Firebase Sync Error", e);
             }
@@ -503,98 +481,101 @@
         document.getElementById('btnInputBig').addEventListener('click', () => feedOutcome('B'));
         document.getElementById('btnInputSmall').addEventListener('click', () => feedOutcome('S'));
         
-        document.getElementById('resetLocalBtn').addEventListener('click', () => {
-            localSessionHistory = [];
-            updateUI();
+        document.getElementById('resetLocalBtn').addEventListener('click', async () => {
+            if(confirm("আপনি কি নিশ্চিত? এটি আপনার নিজস্ব সমস্ত ডেটাবেস মুছে ফেলবে এবং ভুলের সম্ভাবনা শূন্য থেকে শুরু হবে।")) {
+                userHistory = [];
+                updateUI();
+                if(auth.currentUser) {
+                    const userRef = doc(db, "users", auth.currentUser.uid);
+                    await updateDoc(userRef, { history: [] });
+                }
+            }
         });
 
 
-        // --- Algorithmic Engine (UPDATED TO PURE MATHEMATICS) ---
-        function calculateBaseMarkov(hist, depth = 3) {
-            if (hist.length <= depth) return { outcome: 'B', conf: 50 };
-            
-            const currentPattern = hist.slice(-depth).join('');
-            let weights = { 'B': 0, 'S': 0 };
-            const decay = 0.85;
-
-            for (let i = 0; i < hist.length - depth; i++) {
-                const checkPattern = hist.slice(i, i + depth).join('');
-                if (checkPattern === currentPattern) {
-                    const nextOutcome = hist[i + depth];
-                    const distance = hist.length - (i + depth);
-                    weights[nextOutcome] += Math.pow(decay, distance);
-                }
-            }
-
-            if (weights['B'] === 0 && weights['S'] === 0) {
-                // If pure new pattern, fallback to basic probability
-                const bCount = hist.filter(x => x === 'B').length;
-                const sCount = hist.length - bCount;
-                return { outcome: bCount > sCount ? 'B' : 'S', conf: 55 }; 
-            }
-
-            const total = weights['B'] + weights['S'];
-            const pB = weights['B'] / total;
-            const pS = weights['S'] / total;
-
-            if (pB > pS) return { outcome: 'B', conf: Math.min(99, Math.max(50, Math.round(pB * 100))) };
-            else if (pS > pB) return { outcome: 'S', conf: Math.min(99, Math.max(50, Math.round(pS * 100))) };
-            return { outcome: 'B', conf: 50 };
-        }
-
-        function detectMarketState(hist) {
-            if (hist.length < 5) return '--';
-            const recent = hist.slice(-5);
-            const allSame = recent.every(val => val === recent[0]);
-            let alternations = 0;
-            for(let i=1; i<recent.length; i++) {
-                if(recent[i] !== recent[i-1]) alternations++;
-            }
-            if (allSame) return 'চেইনিং';
-            if (alternations >= 3) return 'জিগ-জ্যাগ';
-            return 'র‍্যান্ডম (Random)';
-        }
-
+        // --- HYBRID ALGORITHM (From index 20.html + Backtesting capability) ---
         function analyzeEngineState(history) {
-            if(history.length < 5) return { prediction: 'WAIT', confidence: 0, wrongs: 0, marketState: '--' };
+            if(history.length < REQUIRED_INPUTS) return { prediction: 'WAIT', confidence: 0, wrongs: 0, safety: '--', mode: '--' };
 
             let consecutiveWrongs = 0;
-            for (let i = 5; i <= history.length; i++) {
+            
+            // Re-simulate to calculate exact state at current step
+            for (let i = REQUIRED_INPUTS; i <= history.length; i++) {
                 const subHist = history.slice(0, i);
                 const isCurrentStep = (i === history.length);
+                const n = subHist.length;
                 
-                // Get Mathematical Probability
-                let basePred = calculateBaseMarkov(subHist);
-                let finalOutcome = basePred.outcome;
-                let isWait = false;
-                let adjustedConf = basePred.conf;
-
-                // --- NEW LOGIC: Trust Mathematics, Don't Force Opposite ---
-                // If wrong 2 times, it means market is volatile. Lower confidence to warn user.
-                if (consecutiveWrongs === 2) {
-                    adjustedConf = Math.max(50, adjustedConf - 15); // Penalty for volatility
+                // STEP 1: Anti-Streak Trend Following
+                let currentStreak = 1;
+                for (let j = n - 1; j > 0; j--) {
+                    if (subHist[j] === subHist[j - 1]) currentStreak++;
+                    else break;
                 }
-                // If wrong 3 times or more, market is highly manipulated/chaotic. Enter Observation mode.
-                else if (consecutiveWrongs >= 3) {
-                    isWait = true;
+                const lastVal = subHist[n - 1];
+
+                let prediction = null;
+                let confidence = 50;
+                let mode = "";
+
+                if (currentStreak >= STREAK_THRESHOLD) {
+                    prediction = lastVal;
+                    confidence = 85;
+                    mode = "ট্রেন্ড অনুসরণ (Trend Follow)";
+                } 
+                else {
+                    // STEP 2: Depth Pattern Matching (Depth 5 to 2)
+                    let weights = { 'B': 0, 'S': 0 };
+                    let totalWeightFound = 0;
+
+                    for (let depth = 5; depth >= 2; depth--) {
+                        if (n <= depth) continue;
+                        let targetPattern = subHist.slice(n - depth).join('');
+                        
+                        for (let k = 0; k <= n - depth - 1; k++) {
+                            let currentPattern = subHist.slice(k, k + depth).join('');
+                            if (currentPattern === targetPattern) {
+                                let nextValue = subHist[k + depth];
+                                let weight = Math.pow(depth, 2); // Exponential Weight
+                                weights[nextValue] += weight;
+                                totalWeightFound += weight;
+                            }
+                        }
+                    }
+
+                    if (totalWeightFound > 0) {
+                        prediction = weights['B'] >= weights['S'] ? 'B' : 'S';
+                        confidence = Math.max((Math.max(weights['B'], weights['S']) / totalWeightFound) * 100, 50);
+                        mode = "প্যাটার্ন স্বীকৃতি (Pattern Recognition)";
+                    } else {
+                        // Fallback Counter Psychology
+                        prediction = lastVal === 'B' ? 'S' : 'B';
+                        confidence = 55;
+                        mode = "কাউন্টার-সাইকোলজি (Counter-Psy)";
+                    }
+                }
+
+                // STEP 3: Strict Error Mitigation (Safety Flip)
+                let safetyLevel = "স্বাভাবিক (Normal)";
+                
+                if (consecutiveWrongs === 1) {
+                    confidence = Math.max(50, confidence - 15);
+                    safetyLevel = "সতর্কতা (Caution)";
+                } 
+                else if (consecutiveWrongs >= 2) {
+                    // The Magic Flip! Counter the platform's trap algorithm.
+                    prediction = prediction === 'B' ? 'S' : 'B';
+                    confidence = 90;
+                    mode = "সেফটি ফ্লিপ (Safety Flip Active)";
+                    safetyLevel = "বিপদ - ফ্লিপড (Flipped)";
                 }
 
                 if (isCurrentStep) {
-                    return {
-                        prediction: isWait ? 'WAIT' : finalOutcome,
-                        confidence: isWait ? 0 : adjustedConf,
-                        wrongs: consecutiveWrongs,
-                        marketState: detectMarketState(subHist)
-                    };
+                    return { prediction, confidence, wrongs: consecutiveWrongs, safety: safetyLevel, mode };
                 } else {
-                    // Backtesting to find consecutive wrongs
-                    if (!isWait) {
-                        const actualOutcome = history[i];
-                        if (finalOutcome === actualOutcome) consecutiveWrongs = 0;
+                    const actualOutcome = history[i]; // Test against the actual next value
+                    if (actualOutcome !== undefined) {
+                        if (prediction === actualOutcome) consecutiveWrongs = 0;
                         else consecutiveWrongs++;
-                    } else {
-                        // Reset wrongs after waiting one turn
-                        consecutiveWrongs = 0; 
                     }
                 }
             }
@@ -606,10 +587,11 @@
             const tapeContainer = document.getElementById('historyContainer');
             tapeContainer.innerHTML = '';
             
-            if(localSessionHistory.length === 0) {
+            if(userHistory.length === 0) {
                 tapeContainer.innerHTML = '<span class="text-xs text-muted p-2 font-semibold mx-auto">ফলাফল যোগ করা শুরু করুন...</span>';
             } else {
-                localSessionHistory.forEach(item => {
+                let displayHist = userHistory.slice(-25); // Show last 25 elements
+                displayHist.forEach(item => {
                     const badge = document.createElement('div');
                     badge.className = 'history-badge';
                     if (item === 'B') {
@@ -624,24 +606,35 @@
                 tapeContainer.scrollLeft = tapeContainer.scrollWidth;
             }
 
-            document.getElementById('inputCounterDisplay').innerText = `${convertEngToBng(localSessionHistory.length)}/১০ দেওয়া হয়েছে`;
+            document.getElementById('inputCounterDisplay').innerText = `${convertEngToBng(userHistory.length)}/১০ দেওয়া হয়েছে`;
 
             outBox.className = 'w-52 h-52 rounded-full border-[5px] flex items-center justify-center inner-box transition-all duration-700 relative z-10 shadow-2xl border-[var(--border-inner)]';
-            scanningRing.classList.remove('border-[#00f2fe]/30', 'border-[#00ff87]/30', 'border-[#ff3366]/30');
+            scanningRing.classList.remove('border-[#00f2fe]/30', 'border-[#00ff87]/30', 'border-[#ff3366]/30', 'border-[#f5af19]/30');
             scanningRing.classList.add('border-gray-400/30');
 
-            if (localSessionHistory.length < REQUIRED_INPUTS) {
-                const needed = REQUIRED_INPUTS - localSessionHistory.length;
+            if (userHistory.length < REQUIRED_INPUTS) {
+                const needed = REQUIRED_INPUTS - userHistory.length;
                 outBox.classList.add('pred-wait');
                 outText.innerHTML = `<span class="text-lg font-bold text-center leading-tight">ট্রেন্ড বুঝতে<br><span class="text-2xl text-[var(--text-primary)]">আর ${convertEngToBng(needed)}টি</span><br>ফলাফল দিন</span>`;
                 
                 document.getElementById('statConfidence').innerText = '--%';
-                document.getElementById('statMarket').innerText = '--';
+                document.getElementById('statSafety').innerText = '--';
                 document.getElementById('statErrors').innerText = '০';
+                predModeDisplay.classList.add('hidden');
             } else {
-                const dataToAnalyze = globalHistory.length > REQUIRED_INPUTS ? globalHistory : localSessionHistory;
-                const state = analyzeEngineState(dataToAnalyze);
+                const state = analyzeEngineState(userHistory);
                 
+                predModeDisplay.innerText = state.mode;
+                predModeDisplay.classList.remove('hidden');
+                
+                if (state.mode.includes('সেফটি ফ্লিপ')) {
+                    predModeDisplay.className = "bg-red-500/20 px-4 py-1.5 rounded-full text-xs font-bold text-[#ff3366] border border-red-500/30 mb-6";
+                } else if (state.mode.includes('ট্রেন্ড')) {
+                    predModeDisplay.className = "bg-orange-500/20 px-4 py-1.5 rounded-full text-xs font-bold text-orange-400 border border-orange-500/30 mb-6";
+                } else {
+                    predModeDisplay.className = "bg-[#00f2fe]/10 px-4 py-1.5 rounded-full text-xs font-bold text-[#00f2fe] border border-[#00f2fe]/30 mb-6";
+                }
+
                 if (state.prediction === 'B') {
                     outBox.classList.add('pred-active-b');
                     scanningRing.classList.replace('border-gray-400/30', 'border-[#00f2fe]/30');
@@ -650,18 +643,16 @@
                     outBox.classList.add('pred-active-s');
                     scanningRing.classList.replace('border-gray-400/30', 'border-[#00ff87]/30');
                     outText.innerHTML = 'ছোট<br><span class="text-xl opacity-80">(SMALL)</span>';
-                } else {
-                    outBox.classList.add('pred-wait');
-                    scanningRing.classList.replace('border-gray-400/30', 'border-[#ff3366]/30');
-                    outText.innerHTML = '<span class="text-2xl font-bold text-center leading-tight text-[#ff3366]">স্কিপ করুন<br><span class="text-sm opacity-80">(Observation)</span></span>';
                 }
 
-                document.getElementById('statConfidence').innerText = state.confidence > 0 ? convertEngToBng(state.confidence) + '%' : '--%';
-                document.getElementById('statMarket').innerText = state.marketState;
+                document.getElementById('statConfidence').innerText = state.confidence > 0 ? convertEngToBng(Math.round(state.confidence)) + '%' : '--%';
+                document.getElementById('statSafety').innerText = state.safety;
+                document.getElementById('statSafety').style.color = state.safety.includes('বিপদ') || state.safety.includes('সতর্কতা') ? '#ff3366' : '#00ff87';
                 document.getElementById('statErrors').innerText = convertEngToBng(state.wrongs);
             }
         }
 
+        // Initialize UI
         updateUI();
 
     </script>
