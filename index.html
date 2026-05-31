@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Collective Intelligence Engine</title>
+    <title>Premium AI Prediction Engine</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Noto Sans Bengali -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Phosphor Icons for UI elements -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
@@ -20,14 +20,14 @@
                         sans: ['"Noto Sans Bengali"', 'sans-serif'],
                     },
                     colors: {
-                        darkBg: '#0d0e15',
-                        darkCard: 'rgba(20, 22, 35, 0.7)',
-                        lightBg: '#f0f4f8',
-                        lightCard: 'rgba(255, 255, 255, 0.75)',
+                        darkBg: '#050508',
+                        darkCard: 'rgba(15, 17, 26, 0.6)',
+                        lightBg: '#f3f4f6',
+                        lightCard: 'rgba(255, 255, 255, 0.8)',
                         neonBlue: '#00f2fe',
-                        neonGreen: '#38ef7d',
-                        neonRed: '#ff4b2b',
-                        neonOrange: '#f12711',
+                        neonGreen: '#00ff87',
+                        neonRed: '#ff3366',
+                        neonGold: '#ffb347',
                     }
                 }
             }
@@ -37,188 +37,234 @@
     <style>
         /* Custom CSS Variables & Theming */
         :root {
-            --bg-color: #0d0e15;
+            --bg-color: #050508;
             --text-color: #e2e8f0;
-            --card-bg: rgba(20, 22, 35, 0.7);
-            --border-color: rgba(0, 242, 254, 0.2);
-            --glow-shadow: 0 0 20px rgba(0, 242, 254, 0.1);
-            --history-bg: rgba(255,255,255,0.05);
+            --card-bg: rgba(15, 17, 26, 0.6);
+            --border-color: rgba(0, 242, 254, 0.15);
+            --glow-shadow: 0 8px 32px 0 rgba(0, 242, 254, 0.05);
+            --history-bg: rgba(0, 0, 0, 0.3);
         }
 
         .light-theme {
-            --bg-color: #f0f4f8;
-            --text-color: #1e293b;
-            --card-bg: rgba(255, 255, 255, 0.75);
-            --border-color: rgba(0, 0, 0, 0.1);
-            --glow-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --history-bg: rgba(0,0,0,0.05);
+            --bg-color: #e5e7eb;
+            --text-color: #111827;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --border-color: rgba(255, 255, 255, 0.5);
+            --glow-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            --history-bg: rgba(255,255,255,0.5);
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Noto Sans Bengali', sans-serif;
             overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.05) 0%, transparent 50%);
         }
 
         .glass-panel {
             background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
             box-shadow: var(--glow-shadow);
             transition: all 0.4s ease;
         }
 
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Animations */
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(0, 242, 254, 0.6); }
-            100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.2); }
+        /* Advanced Animations */
+        @keyframes radarSweep {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
-        @keyframes pulseWait {
-            0% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(255, 165, 0, 0.6); }
-            100% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.2); }
+        @keyframes pulseGlowB {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 242, 254, 0.3), inset 0 0 20px rgba(0, 242, 254, 0.3); border-color: #00f2fe; }
+            50% { box-shadow: 0 0 50px rgba(0, 242, 254, 0.6), inset 0 0 30px rgba(0, 242, 254, 0.6); border-color: #fff; }
+        }
+        
+        @keyframes pulseGlowS {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 135, 0.3), inset 0 0 20px rgba(0, 255, 135, 0.3); border-color: #00ff87; }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 135, 0.6), inset 0 0 30px rgba(0, 255, 135, 0.6); border-color: #fff; }
         }
 
-        .pred-active-b { animation: pulseGlow 2s infinite; border-color: #00f2fe; color: #00f2fe; }
-        .pred-active-s { animation: pulseGlow 2s infinite; border-color: #38ef7d; color: #38ef7d; }
-        .pred-wait { animation: pulseWait 2s infinite; border-color: #f12711; color: #f12711; }
+        @keyframes pulseWait {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.3), inset 0 0 20px rgba(255, 51, 102, 0.3); border-color: #ff3366; }
+            50% { box-shadow: 0 0 40px rgba(255, 51, 102, 0.6), inset 0 0 30px rgba(255, 51, 102, 0.6); border-color: #fff; }
+        }
+
+        .pred-active-b { animation: pulseGlowB 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #00f2fe; }
+        .pred-active-s { animation: pulseGlowS 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #00ff87; }
+        .pred-wait { animation: pulseWait 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #ff3366; }
 
         .history-badge {
-            min-width: 40px;
-            height: 40px;
+            min-width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            font-weight: bold;
+            border-radius: 12px;
+            font-weight: 800;
             font-size: 1.1rem;
             flex-shrink: 0;
-            animation: slideIn 0.3s ease-out forwards;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
+            from { opacity: 0; transform: translateX(30px) scale(0.8); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
         }
 
-        /* Overlay */
+        /* Paywall Overlay */
         .paywall-overlay {
-            background: rgba(13, 14, 21, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(5, 5, 8, 0.9);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             z-index: 9999;
         }
         .light-theme .paywall-overlay {
-            background: rgba(240, 244, 248, 0.85);
+            background: rgba(229, 231, 235, 0.9);
+        }
+        
+        .premium-btn {
+            background: linear-gradient(135deg, #FFB75E 0%, #ED8F03 100%);
+            box-shadow: 0 4px 15px rgba(237, 143, 3, 0.4);
+            color: #000;
+        }
+        
+        .google-btn {
+            background: white;
+            color: #444;
+            transition: all 0.3s;
+        }
+        .google-btn:hover {
+            box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+            transform: translateY(-2px);
         }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center relative pb-10">
 
-    <!-- Theme Toggle Switch -->
-    <div class="absolute top-4 right-4 z-50">
-        <button id="themeToggleBtn" class="glass-panel p-3 rounded-full hover:scale-110 transition-transform">
-            <i class="ph ph-moon text-xl" id="themeIcon"></i>
-        </button>
-    </div>
-
-    <!-- ==================== AUTHENTICATION SCREEN ==================== -->
-    <div id="authScreen" class="w-full max-w-md w-full px-6 flex flex-col items-center justify-center absolute inset-0 z-40 bg-[var(--bg-color)]">
-        <div class="glass-panel p-8 rounded-3xl w-full text-center">
-            <div class="text-5xl mb-4 text-neonBlue"><i class="ph ph-hexagon"></i></div>
-            <h1 class="text-2xl font-bold mb-2">কালেক্টিভ ইন্টেলিজেন্স</h1>
-            <p class="text-sm opacity-70 mb-8">অ্যাক্সেস পেতে লগইন করুন অথবা একাউন্ট তৈরি করুন</p>
+    <!-- ==================== AUTHENTICATION SCREEN (Google Only) ==================== -->
+    <div id="authScreen" class="w-full max-w-md px-6 flex flex-col items-center justify-center absolute inset-0 z-40 bg-[var(--bg-color)] transition-opacity duration-500">
+        <div class="glass-panel p-10 rounded-[2rem] w-full text-center relative overflow-hidden">
+            <!-- Decorative bg elements -->
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#00f2fe] rounded-full blur-[60px] opacity-20"></div>
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[#00ff87] rounded-full blur-[60px] opacity-20"></div>
             
-            <input type="email" id="emailInput" placeholder="ইমেইল (Email)" class="w-full mb-4 p-3 rounded-xl bg-black/20 border border-white/10 focus:outline-none focus:border-neonBlue transition-colors">
-            <input type="password" id="passwordInput" placeholder="পাসওয়ার্ড (Password)" class="w-full mb-6 p-3 rounded-xl bg-black/20 border border-white/10 focus:outline-none focus:border-neonBlue transition-colors">
+            <div class="text-6xl mb-6 flex justify-center">
+                <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#00f2fe] to-[#4facfe] flex items-center justify-center shadow-[0_0_30px_rgba(0,242,254,0.3)]">
+                    <i class="ph ph-hexagon text-black"></i>
+                </div>
+            </div>
+            <h1 class="text-3xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#00f2fe] to-[#00ff87]">কালেক্টিভ ইন্টেলিজেন্স</h1>
+            <p class="text-sm opacity-70 mb-10">অ্যাডভান্সড এআই প্রেডিকশন সিস্টেমে স্বাগতম</p>
             
-            <button id="loginBtn" class="w-full bg-gradient-to-r from-[#00f2fe] to-[#4facfe] text-black font-bold py-3 rounded-xl mb-3 shadow-[0_0_15px_rgba(0,242,254,0.4)] hover:scale-[1.02] transition-transform">
-                লগইন (Login)
+            <button id="googleLoginBtn" class="google-btn w-full font-bold py-4 rounded-xl flex items-center justify-center gap-3 text-lg">
+                <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)"><path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/><path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.369 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/><path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/><path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.109 -17.884 43.989 -14.754 43.989 Z"/></g></svg>
+                Google দিয়ে লগইন করুন
             </button>
-            <button id="registerBtn" class="w-full border border-[#00f2fe] text-[#00f2fe] font-bold py-3 rounded-xl hover:bg-[#00f2fe]/10 transition-colors">
-                নতুন একাউন্ট (Register)
-            </button>
-            <p id="authError" class="text-neonRed mt-4 text-sm hidden"></p>
+            <p id="authError" class="text-neonRed mt-4 text-sm font-semibold hidden opacity-0 transition-opacity"></p>
         </div>
     </div>
 
     <!-- ==================== MAIN DASHBOARD ==================== -->
-    <div id="mainDashboard" class="w-full max-w-lg px-4 pt-16 flex flex-col gap-6 hidden w-full">
+    <div id="mainDashboard" class="w-full max-w-lg px-4 pt-8 flex flex-col gap-5 hidden">
         
+        <!-- Top Actions: Theme & Logout -->
+        <div class="flex justify-end gap-3 mb-1">
+            <button id="themeToggleBtn" class="glass-panel p-2.5 rounded-full hover:scale-110 transition-transform">
+                <i class="ph ph-moon text-lg text-[#00f2fe]" id="themeIcon"></i>
+            </button>
+            <button id="logoutBtn" class="glass-panel p-2.5 rounded-full text-red-500 hover:bg-red-500/10 transition-colors">
+                <i class="ph ph-sign-out text-lg"></i>
+            </button>
+        </div>
+
         <!-- Header / User Info -->
-        <div class="glass-panel p-4 rounded-2xl flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-neonBlue to-neonGreen flex justify-center items-center text-black font-bold text-lg">
+        <div class="glass-panel p-4 rounded-2xl flex justify-between items-center relative overflow-hidden">
+            <div class="flex items-center gap-4 relative z-10">
+                <img id="userAvatar" src="" alt="User" class="w-12 h-12 rounded-full border-2 border-[#00f2fe] shadow-[0_0_10px_rgba(0,242,254,0.3)] hidden">
+                <div id="userAvatarFallback" class="w-12 h-12 rounded-full bg-gradient-to-br from-[#00f2fe] to-[#00ff87] flex justify-center items-center text-black font-bold text-xl shadow-[0_0_10px_rgba(0,242,254,0.3)]">
                     <i class="ph ph-user"></i>
                 </div>
                 <div>
-                    <h2 class="font-bold text-sm" id="userEmailDisplay">User</h2>
-                    <p class="text-xs opacity-70" id="trialTimerDisplay">চেক করা হচ্ছে...</p>
+                    <h2 class="font-bold text-base" id="userNameDisplay">User</h2>
+                    <div class="flex items-center gap-1.5 mt-0.5">
+                        <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                        <p class="text-xs opacity-70 font-semibold tracking-wide" id="trialTimerDisplay">চেক করা হচ্ছে...</p>
+                    </div>
                 </div>
             </div>
-            <button id="logoutBtn" class="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition">
-                <i class="ph ph-sign-out text-xl"></i>
+            <!-- Main Dashboard Premium Button (Always visible if not premium) -->
+            <button id="dashPremiumBtn" class="premium-btn px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-1.5 hover:scale-105 transition-transform z-10 hidden">
+                <i class="ph-fill ph-crown text-lg"></i> প্রিমিয়াম
             </button>
         </div>
 
         <!-- History Tape -->
-        <div class="glass-panel p-4 rounded-2xl">
-            <h3 class="text-xs font-bold mb-3 opacity-70 uppercase tracking-widest text-center">গ্লোবাল কালেক্টিভ হিস্টোরি (Global History)</h3>
-            <div class="flex overflow-x-auto hide-scrollbar gap-2 py-2" id="historyContainer" style="background: var(--history-bg); border-radius: 12px; padding: 10px;">
+        <div class="glass-panel p-5 rounded-2xl">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-[11px] font-bold opacity-60 uppercase tracking-widest"><i class="ph ph-clock-counter-clockwise mr-1"></i> গ্লোবাল হিস্টোরি</h3>
+                <span class="text-[10px] bg-[#00f2fe]/10 text-[#00f2fe] px-2 py-0.5 rounded-full border border-[#00f2fe]/20">Live Sync</span>
+            </div>
+            <div class="flex overflow-x-auto hide-scrollbar gap-2.5 py-3 px-2" id="historyContainer" style="background: var(--history-bg); border-radius: 14px; border: 1px solid rgba(255,255,255,0.05);">
                 <!-- Filled via JS -->
             </div>
         </div>
 
-        <!-- Engine Prediction Display -->
-        <div class="glass-panel p-8 rounded-3xl flex flex-col items-center relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00f2fe] to-transparent opacity-50"></div>
+        <!-- Engine Prediction Display (Enhanced UI) -->
+        <div class="glass-panel p-8 rounded-[2rem] flex flex-col items-center relative overflow-hidden">
+            <!-- Grid Background Effect -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px;"></div>
             
-            <h2 class="text-sm uppercase tracking-widest opacity-80 mb-6 font-semibold">অ্যাডভান্সড প্রেডিকশন</h2>
+            <h2 class="text-[11px] uppercase tracking-[0.2em] text-[#00f2fe] mb-8 font-bold flex items-center gap-2">
+                <i class="ph ph-cpu text-lg"></i> এআই প্রেডিকশন
+            </h2>
             
             <!-- Output Circle -->
-            <div id="predictionOutputBox" class="w-48 h-48 rounded-full border-4 flex items-center justify-center shadow-2xl glass-panel mb-6 transition-all duration-500">
-                <span id="predictionText" class="text-4xl font-extrabold tracking-wider">...</span>
+            <div class="relative mb-10 mt-2">
+                <!-- Scanning ring -->
+                <div class="absolute -inset-4 border-2 border-dashed border-[#00f2fe]/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                
+                <div id="predictionOutputBox" class="w-52 h-52 rounded-full border-[5px] flex items-center justify-center glass-panel transition-all duration-700 relative z-10 bg-black/40">
+                    <span id="predictionText" class="text-5xl font-black tracking-wider drop-shadow-lg">...</span>
+                </div>
             </div>
 
             <!-- Stats Grid -->
-            <div class="grid grid-cols-3 gap-3 w-full text-center">
-                <div class="bg-black/10 p-3 rounded-xl border border-white/5">
-                    <p class="text-[10px] opacity-60 uppercase mb-1">কনফিডেন্স</p>
-                    <p class="font-bold text-lg text-neonGreen" id="statConfidence">--%</p>
+            <div class="grid grid-cols-3 gap-3 w-full text-center relative z-10">
+                <div class="bg-black/20 p-3.5 rounded-2xl border border-white/5 shadow-inner">
+                    <p class="text-[9px] opacity-60 uppercase mb-1.5 font-bold"><i class="ph ph-target mr-1"></i>কনফিডেন্স</p>
+                    <p class="font-black text-xl text-[#00ff87]" id="statConfidence">--%</p>
                 </div>
-                <div class="bg-black/10 p-3 rounded-xl border border-white/5">
-                    <p class="text-[10px] opacity-60 uppercase mb-1">মার্কেট স্টেট</p>
-                    <p class="font-bold text-sm mt-1" id="statMarket">--</p>
+                <div class="bg-black/20 p-3.5 rounded-2xl border border-white/5 shadow-inner">
+                    <p class="text-[9px] opacity-60 uppercase mb-1.5 font-bold"><i class="ph ph-chart-line-up mr-1"></i>মার্কেট স্টেট</p>
+                    <p class="font-bold text-sm mt-1 text-[#00f2fe]" id="statMarket">--</p>
                 </div>
-                <div class="bg-black/10 p-3 rounded-xl border border-white/5">
-                    <p class="text-[10px] opacity-60 uppercase mb-1">ভুল (Errors)</p>
-                    <p class="font-bold text-lg text-neonRed" id="statErrors">০</p>
+                <div class="bg-black/20 p-3.5 rounded-2xl border border-white/5 shadow-inner">
+                    <p class="text-[9px] opacity-60 uppercase mb-1.5 font-bold"><i class="ph ph-warning-circle mr-1"></i>এরর/ভুল</p>
+                    <p class="font-black text-xl text-[#ff3366]" id="statErrors">০</p>
                 </div>
             </div>
         </div>
 
         <!-- Input Controls (Feeding the Collective) -->
-        <div class="glass-panel p-5 rounded-2xl flex flex-col gap-3">
-            <p class="text-center text-xs opacity-70 mb-2">ফলাফল যোগ করুন (Feed Collective Intelligence)</p>
+        <div class="glass-panel p-5 rounded-2xl flex flex-col gap-3 relative z-10">
+            <div class="flex justify-between items-center mb-1">
+                <p class="text-[11px] opacity-70 font-bold uppercase tracking-wide"><i class="ph ph-database mr-1"></i> ফলাফল যোগ করুন</p>
+            </div>
             <div class="flex gap-4">
-                <button id="btnInputBig" class="flex-1 bg-gradient-to-b from-[#00f2fe] to-[#4facfe] text-black font-bold py-4 rounded-xl shadow-lg hover:scale-[1.03] transition-transform flex items-center justify-center gap-2">
-                    <div class="w-3 h-3 bg-white rounded-full"></div> বড় (BIG)
+                <button id="btnInputBig" class="flex-1 bg-gradient-to-br from-[#00f2fe] to-[#0088ff] text-white font-extrabold py-4 rounded-xl shadow-[0_4px_20px_rgba(0,136,255,0.4)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/20">
+                    <i class="ph-fill ph-arrow-circle-up text-xl"></i> বড় (BIG)
                 </button>
-                <button id="btnInputSmall" class="flex-1 bg-gradient-to-b from-[#38ef7d] to-[#11998e] text-black font-bold py-4 rounded-xl shadow-lg hover:scale-[1.03] transition-transform flex items-center justify-center gap-2">
-                    <div class="w-3 h-3 bg-white rounded-full"></div> ছোট (SMALL)
+                <button id="btnInputSmall" class="flex-1 bg-gradient-to-br from-[#00ff87] to-[#00b35c] text-black font-extrabold py-4 rounded-xl shadow-[0_4px_20px_rgba(0,255,135,0.4)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/20">
+                    <i class="ph-fill ph-arrow-circle-down text-xl"></i> ছোট (SMALL)
                 </button>
             </div>
         </div>
@@ -226,16 +272,21 @@
     </div>
 
     <!-- ==================== PREMIUM PAYWALL OVERLAY ==================== -->
-    <div id="paywallScreen" class="fixed inset-0 paywall-overlay flex items-center justify-center px-6 hidden">
-        <div class="glass-panel p-8 rounded-3xl w-full max-w-sm text-center border border-neonRed shadow-[0_0_40px_rgba(241,39,17,0.2)]">
-            <div class="text-6xl text-neonRed mb-4 flex justify-center"><i class="ph ph-lock-key"></i></div>
-            <h2 class="text-2xl font-extrabold mb-2 text-neonRed">ট্রায়াল শেষ হয়েছে</h2>
-            <p class="text-sm opacity-80 mb-6">আপনার ২৪ ঘণ্টার ফ্রি ট্রায়াল সময়সীমা শেষ। অ্যাডভান্সড প্রেডিকশন এবং গ্লোবাল ইঞ্জিন অ্যাক্সেস চালিয়ে যেতে প্রিমিয়াম সাবস্ক্রিপশন নিন।</p>
+    <div id="paywallScreen" class="fixed inset-0 paywall-overlay flex items-center justify-center px-6 hidden transition-opacity duration-500">
+        <div class="glass-panel p-10 rounded-[2.5rem] w-full max-w-sm text-center border-2 border-[#ff3366] shadow-[0_0_60px_rgba(255,51,102,0.25)] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-[#ff3366] to-transparent opacity-50"></div>
             
-            <button id="buyPremiumBtn" class="w-full bg-gradient-to-r from-green-500 to-green-700 text-white font-bold py-4 rounded-xl shadow-lg hover:scale-[1.03] transition-transform flex items-center justify-center gap-2 text-lg">
+            <div class="w-24 h-24 mx-auto bg-[#ff3366]/10 rounded-full flex items-center justify-center mb-6 border border-[#ff3366]/30">
+                <i class="ph-fill ph-lock-key text-5xl text-[#ff3366]"></i>
+            </div>
+            
+            <h2 class="text-3xl font-black mb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#ff3366] to-[#ff8c42]">ট্রায়াল শেষ!</h2>
+            <p class="text-sm opacity-80 mb-8 leading-relaxed">আপনার <span class="font-bold text-white">২৪ ঘণ্টার ফ্রি ট্রায়াল</span> শেষ হয়েছে। অ্যাডভান্সড প্রেডিকশন এবং গ্লোবাল ইঞ্জিন অ্যাক্সেস চালিয়ে যেতে এখনই প্রিমিয়াম সাবস্ক্রিপশন নিন।</p>
+            
+            <button id="buyPremiumBtn" class="premium-btn w-full font-extrabold py-4 rounded-xl hover:scale-[1.03] transition-transform flex items-center justify-center gap-3 text-lg">
                 <i class="ph ph-whatsapp-logo text-2xl"></i> প্রিমিয়াম অ্যাক্সেস নিন
             </button>
-            <p class="text-xs opacity-50 mt-4">WhatsApp-এর মাধ্যমে পেমেন্ট সম্পন্ন করুন</p>
+            <p class="text-[11px] font-semibold opacity-50 mt-5 tracking-wide"><i class="ph ph-shield-check mr-1"></i> WhatsApp-এর মাধ্যমে পেমেন্ট করুন</p>
         </div>
     </div>
 
@@ -243,10 +294,10 @@
     <!-- ==================== FIREBASE & LOGIC ==================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // 1. Firebase Configuration (Strictly from requirements)
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyCd-Mn-nyTl-H79H_Cz-vZClnS_jIn6P8Q",
             authDomain: "bigsmall-predictor24.firebaseapp.com",
@@ -259,6 +310,7 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
         const db = getFirestore(app);
 
         // State Variables
@@ -275,34 +327,39 @@
         const authScreen = document.getElementById('authScreen');
         const mainDashboard = document.getElementById('mainDashboard');
         const paywallScreen = document.getElementById('paywallScreen');
+        const dashPremiumBtn = document.getElementById('dashPremiumBtn');
+        const authError = document.getElementById('authError');
         
         // Setup Theme Toggle
         document.getElementById('themeToggleBtn').addEventListener('click', () => {
             isLightMode = !isLightMode;
             document.body.classList.toggle('light-theme', isLightMode);
-            document.getElementById('themeIcon').className = isLightMode ? 'ph ph-sun text-xl text-yellow-500' : 'ph ph-moon text-xl text-neonBlue';
+            const icon = document.getElementById('themeIcon');
+            icon.className = isLightMode ? 'ph ph-sun text-lg text-orange-500' : 'ph ph-moon text-lg text-[#00f2fe]';
         });
 
-        // ---------------- AUTHENTICATION LOGIC ----------------
-        document.getElementById('loginBtn').addEventListener('click', async () => {
-            const email = document.getElementById('emailInput').value;
-            const pwd = document.getElementById('passwordInput').value;
-            try { await signInWithEmailAndPassword(auth, email, pwd); } 
-            catch (error) { document.getElementById('authError').textContent = "লগইন ব্যর্থ হয়েছে। সঠিক তথ্য দিন।"; document.getElementById('authError').classList.remove('hidden'); }
-        });
-
-        document.getElementById('registerBtn').addEventListener('click', async () => {
-            const email = document.getElementById('emailInput').value;
-            const pwd = document.getElementById('passwordInput').value;
+        // ---------------- AUTHENTICATION LOGIC (Google) ----------------
+        document.getElementById('googleLoginBtn').addEventListener('click', async () => {
             try { 
-                const cred = await createUserWithEmailAndPassword(auth, email, pwd);
-                // Create User Document
-                await setDoc(doc(db, "users", cred.user.uid), {
-                    email: email,
-                    createdAt: Date.now(),
-                    isPremium: false
-                });
-            } catch (error) { document.getElementById('authError').textContent = "একাউন্ট তৈরি ব্যর্থ হয়েছে (পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে)।"; document.getElementById('authError').classList.remove('hidden'); }
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+                
+                // Check if user exists in Firestore, if not create them
+                const userRef = doc(db, "users", user.uid);
+                const userSnap = await getDoc(userRef);
+                
+                if (!userSnap.exists()) {
+                    await setDoc(userRef, {
+                        email: user.email,
+                        displayName: user.displayName,
+                        createdAt: Date.now(),
+                        isPremium: false
+                    });
+                }
+            } catch (error) { 
+                authError.textContent = "লগইন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।"; 
+                authError.classList.remove('hidden', 'opacity-0'); 
+            }
         });
 
         document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
@@ -310,12 +367,22 @@
         // Listen for Auth State
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                authScreen.classList.add('hidden');
-                document.getElementById('userEmailDisplay').textContent = user.email.split('@')[0];
+                authScreen.classList.add('opacity-0');
+                setTimeout(() => authScreen.classList.add('hidden'), 500);
+                
+                // Set UI profile info
+                document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
+                if(user.photoURL) {
+                    document.getElementById('userAvatar').src = user.photoURL;
+                    document.getElementById('userAvatar').classList.remove('hidden');
+                    document.getElementById('userAvatarFallback').classList.add('hidden');
+                }
+
                 await loadUserProfile(user.uid);
                 startGlobalSync();
             } else {
                 authScreen.classList.remove('hidden');
+                setTimeout(() => authScreen.classList.remove('opacity-0'), 10);
                 mainDashboard.classList.add('hidden');
                 paywallScreen.classList.add('hidden');
                 if(timerInterval) clearInterval(timerInterval);
@@ -325,11 +392,6 @@
         async function loadUserProfile(uid) {
             const userRef = doc(db, "users", uid);
             let userSnap = await getDoc(userRef);
-            if (!userSnap.exists()) {
-                // Fallback if created outside flow
-                await setDoc(userRef, { email: auth.currentUser.email, createdAt: Date.now(), isPremium: false });
-                userSnap = await getDoc(userRef);
-            }
             currentUserData = userSnap.data();
             checkTrialStatus();
             
@@ -345,34 +407,47 @@
             const hours24Ms = 24 * 60 * 60 * 1000;
 
             if (ageMs > hours24Ms && !currentUserData.isPremium) {
-                // Trial Expired
-                mainDashboard.classList.remove('hidden'); // Show background
+                // Trial Expired (Lock Everything)
+                mainDashboard.classList.remove('hidden'); 
                 paywallScreen.classList.remove('hidden');
+                setTimeout(() => paywallScreen.classList.remove('opacity-0'), 10);
+                
                 document.getElementById('trialTimerDisplay').textContent = "ট্রায়াল শেষ (Expired)";
-                document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-neonRed";
+                document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-[#ff3366] tracking-wide";
+                dashPremiumBtn.classList.remove('hidden'); // Show premium button in dashboard behind overlay
             } else {
                 // Active Trial or Premium
-                paywallScreen.classList.add('hidden');
+                paywallScreen.classList.add('opacity-0');
+                setTimeout(() => paywallScreen.classList.add('hidden'), 500);
                 mainDashboard.classList.remove('hidden');
+                
                 if (currentUserData.isPremium) {
-                    document.getElementById('trialTimerDisplay').textContent = "প্রিমিয়াম ইউজার (Premium)";
-                    document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-neonGreen";
+                    document.getElementById('trialTimerDisplay').textContent = "প্রিমিয়াম মেম্বার";
+                    document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-[#00ff87] tracking-wide";
+                    dashPremiumBtn.classList.add('hidden'); // Hide buy button if already premium
                 } else {
                     const remainingMs = hours24Ms - ageMs;
                     const remHours = Math.floor(remainingMs / (1000 * 60 * 60));
                     const remMins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
-                    document.getElementById('trialTimerDisplay').textContent = `ট্রায়াল বাকি: ${convertEngToBng(remHours)} ঘ ${convertEngToBng(remMins)} মি`;
-                    document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-neonBlue";
+                    document.getElementById('trialTimerDisplay').textContent = `ট্রায়াল বাকি: ${convertEngToBng(remHours)}ঘ ${convertEngToBng(remMins)}মি`;
+                    document.getElementById('trialTimerDisplay').className = "text-xs font-bold text-[#00f2fe] tracking-wide";
+                    dashPremiumBtn.classList.remove('hidden'); // Show upgrade button
                 }
             }
         }
 
-        // WhatsApp Premium Redirect
-        document.getElementById('buyPremiumBtn').addEventListener('click', () => {
+        // --- WhatsApp Premium Redirect Logic ---
+        function openWhatsAppPremium() {
+            if(!auth.currentUser) return;
             const uid = auth.currentUser.uid;
+            // Exact format requested
             const waUrl = `https://wa.me/8801572922663?text=Hello,%20I%20want%20to%20activate%20Premium.%20My%20Unique%20ID:%20${uid}`;
             window.open(waUrl, '_blank');
-        });
+        }
+
+        // Attach event listeners to BOTH premium buttons (Dashboard & Paywall)
+        document.getElementById('buyPremiumBtn').addEventListener('click', openWhatsAppPremium);
+        document.getElementById('dashPremiumBtn').addEventListener('click', openWhatsAppPremium);
 
 
         // ---------------- ENGINE LOGIC & SYNC ----------------
@@ -381,7 +456,6 @@
         function startGlobalSync() {
             onSnapshot(poolRef, async (docSnap) => {
                 if (!docSnap.exists()) {
-                    // Initialize if missing
                     await setDoc(poolRef, { history: [] });
                     return;
                 }
@@ -390,18 +464,13 @@
             });
         }
 
-        // Push data to collective array
         async function feedOutcome(outcome) {
             if (!auth.currentUser || (Date.now() - currentUserData.createdAt > 24*3600*1000 && !currentUserData.isPremium)) return;
             
-            // Get latest fresh array to prevent race overrides as best as possible without custom backend
             const snap = await getDoc(poolRef);
             let hist = snap.exists() ? (snap.data().history || []) : [];
             hist.push(outcome);
-            
-            // Truncate to keep max 150 items to save DB costs and speed
-            if (hist.length > 150) hist = hist.slice(-150);
-            
+            if (hist.length > 150) hist = hist.slice(-150); // DB Size safety
             await updateDoc(poolRef, { history: hist });
         }
 
@@ -409,26 +478,24 @@
         document.getElementById('btnInputSmall').addEventListener('click', () => feedOutcome('S'));
 
 
-        // --- The Core Algorithmic Engine ---
-
+        // --- Algorithmic Engine ---
         function calculateBaseMarkov(hist, depth = 3) {
-            if (hist.length <= depth) return { outcome: 'B', conf: 50 }; // Need more data
+            if (hist.length <= depth) return { outcome: 'B', conf: 50 };
             
             const currentPattern = hist.slice(-depth).join('');
             let weights = { 'B': 0, 'S': 0 };
-            const decay = 0.85; // Exponential Recency Decay Factor
+            const decay = 0.85;
 
             for (let i = 0; i < hist.length - depth; i++) {
                 const checkPattern = hist.slice(i, i + depth).join('');
                 if (checkPattern === currentPattern) {
                     const nextOutcome = hist[i + depth];
-                    const distance = hist.length - (i + depth); // Steps ago
+                    const distance = hist.length - (i + depth);
                     weights[nextOutcome] += Math.pow(decay, distance);
                 }
             }
 
             if (weights['B'] === 0 && weights['S'] === 0) {
-                // Fallback to depth 1 if complex pattern unseen recently
                 const last = hist[hist.length - 1];
                 return { outcome: last === 'B' ? 'S' : 'B', conf: 58 }; 
             }
@@ -443,43 +510,31 @@
         }
 
         function detectMarketState(hist) {
-            if (hist.length < 5) return 'বিশ্লেষণ চলছে...';
+            if (hist.length < 5) return 'অপেক্ষমাণ...';
             const recent = hist.slice(-5);
             const allSame = recent.every(val => val === recent[0]);
-            
             let alternations = 0;
             for(let i=1; i<recent.length; i++) {
                 if(recent[i] !== recent[i-1]) alternations++;
             }
-
-            if (allSame) return 'চেইনিং (Chaining)';
-            if (alternations >= 3) return 'জিগ-জ্যাগ (Zig-Zag)';
+            if (allSame) return 'চেইনিং মার্কেট';
+            if (alternations >= 3) return 'জিগ-জ্যাগ';
             return 'বিশৃঙ্খল (Chaotic)';
         }
 
-        // Backtesting Engine to calculate State Machine (Wrongs, Flips, Waits)
         function analyzeEngineState(history) {
-            if(history.length < 5) {
-                return { prediction: 'WAIT', confidence: 0, wrongs: 0, marketState: 'ডেটা সংগ্রহ হচ্ছে' };
-            }
+            if(history.length < 5) return { prediction: 'WAIT', confidence: 0, wrongs: 0, marketState: 'ডেটা প্রয়োজন' };
 
             let consecutiveWrongs = 0;
-
-            // Simulate up to current moment
             for (let i = 5; i <= history.length; i++) {
                 const subHist = history.slice(0, i);
                 const isCurrentStep = (i === history.length);
-                
                 const basePred = calculateBaseMarkov(subHist);
                 let finalOutcome = basePred.outcome;
                 let isWait = false;
 
-                // Anti-Psychology Logic
-                if (consecutiveWrongs === 2) {
-                    finalOutcome = (basePred.outcome === 'B') ? 'S' : 'B'; // Auto-Flip
-                } else if (consecutiveWrongs >= 3) {
-                    isWait = true; // Observation Mode to dodge bots
-                }
+                if (consecutiveWrongs === 2) finalOutcome = (basePred.outcome === 'B') ? 'S' : 'B';
+                else if (consecutiveWrongs >= 3) isWait = true;
 
                 if (isCurrentStep) {
                     return {
@@ -489,16 +544,11 @@
                         marketState: detectMarketState(subHist)
                     };
                 } else {
-                    // Check if prediction was correct against actual historical outcome
                     if (!isWait) {
                         const actualOutcome = history[i];
-                        if (finalOutcome === actualOutcome) {
-                            consecutiveWrongs = 0;
-                        } else {
-                            consecutiveWrongs++;
-                        }
+                        if (finalOutcome === actualOutcome) consecutiveWrongs = 0;
+                        else consecutiveWrongs++;
                     } else {
-                        // Reset after waiting 1 step
                         consecutiveWrongs = 0;
                     }
                 }
@@ -508,52 +558,44 @@
 
         // ---------------- UI UPDATES ----------------
         function updateUI() {
-            // Update History Tape
             const tapeContainer = document.getElementById('historyContainer');
             tapeContainer.innerHTML = '';
-            // Show last 20 elements
-            const displayHistory = collectiveHistory.slice(-20);
+            const displayHistory = collectiveHistory.slice(-20); // Last 20
             
-            if(displayHistory.length === 0) {
-                tapeContainer.innerHTML = '<span class="text-xs opacity-50 p-2">কোনো ডেটা নেই</span>';
-            }
+            if(displayHistory.length === 0) tapeContainer.innerHTML = '<span class="text-xs opacity-50 p-2 font-semibold">কোনো ডেটা নেই</span>';
 
             displayHistory.forEach(item => {
                 const badge = document.createElement('div');
                 badge.className = 'history-badge';
                 if (item === 'B') {
-                    badge.classList.add('bg-gradient-to-br', 'from-[#00f2fe]', 'to-[#4facfe]', 'text-black');
-                    badge.innerText = 'বড়';
+                    badge.classList.add('bg-[#00f2fe]/20', 'text-[#00f2fe]', 'border-[#00f2fe]/50');
+                    badge.innerText = 'B';
                 } else {
-                    badge.classList.add('bg-gradient-to-br', 'from-[#38ef7d]', 'to-[#11998e]', 'text-black');
-                    badge.innerText = 'ছোট';
+                    badge.classList.add('bg-[#00ff87]/20', 'text-[#00ff87]', 'border-[#00ff87]/50');
+                    badge.innerText = 'S';
                 }
                 tapeContainer.appendChild(badge);
             });
-            // Scroll to end of tape
             tapeContainer.scrollLeft = tapeContainer.scrollWidth;
 
-            // Get Prediction Data
             const state = analyzeEngineState(collectiveHistory);
-
-            // Update Output Box
             const outBox = document.getElementById('predictionOutputBox');
             const outText = document.getElementById('predictionText');
             
-            outBox.className = 'w-48 h-48 rounded-full border-4 flex items-center justify-center shadow-2xl glass-panel mb-6 transition-all duration-500'; // Reset classes
+            // Reset Classes
+            outBox.className = 'w-52 h-52 rounded-full border-[5px] flex items-center justify-center glass-panel transition-all duration-700 relative z-10 bg-black/40 shadow-2xl';
             
             if (state.prediction === 'B') {
                 outBox.classList.add('pred-active-b');
-                outText.innerText = 'বড় (BIG)';
+                outText.innerHTML = 'বড়<br><span class="text-xl opacity-80">(BIG)</span>';
             } else if (state.prediction === 'S') {
                 outBox.classList.add('pred-active-s');
-                outText.innerText = 'ছোট (SMALL)';
+                outText.innerHTML = 'ছোট<br><span class="text-xl opacity-80">(SMALL)</span>';
             } else {
                 outBox.classList.add('pred-wait');
-                outText.innerHTML = '<span class="text-xl font-bold text-center leading-tight">অবজারভেশন<br>মোড</span>';
+                outText.innerHTML = '<span class="text-2xl font-bold text-center leading-tight">স্কিপ করুন<br><span class="text-sm opacity-80">(Observation)</span></span>';
             }
 
-            // Update Stats
             document.getElementById('statConfidence').innerText = state.confidence > 0 ? convertEngToBng(state.confidence) + '%' : '--%';
             document.getElementById('statMarket').innerText = state.marketState;
             document.getElementById('statErrors').innerText = convertEngToBng(state.wrongs);
