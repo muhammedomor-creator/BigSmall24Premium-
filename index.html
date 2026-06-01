@@ -184,11 +184,11 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center relative pb-10">
 
-    <!-- Global API/Auth Loading Overlay -->
-    <div id="globalLoader" class="fixed inset-0 modal-overlay flex flex-col items-center justify-center z-[10000]">
+    <!-- global silent spinner just to load initial authentication state, does not block user interaction -->
+    <div id="globalLoader" class="fixed inset-0 modal-overlay flex flex-col items-center justify-center z-[10000] hidden">
         <div class="glass-panel p-8 rounded-3xl flex flex-col items-center gap-4 text-center">
             <div class="w-12 h-12 border-4 border-[#00f2fe] border-t-transparent rounded-full animate-spin"></div>
-            <p class="font-bold text-sm tracking-wide text-white">সার্ভার এবং এআই সিস্টেম লোড হচ্ছে...</p>
+            <p class="font-bold text-sm tracking-wide text-white">লোডিং হচ্ছে...</p>
         </div>
     </div>
 
@@ -210,6 +210,10 @@
                 <button id="themeToggleBtn" class="glass-panel p-2.5 rounded-full hover:scale-110 transition-transform">
                     <i class="ph ph-sun text-lg text-orange-500 hidden" id="themeIconLight"></i>
                     <i class="ph ph-moon text-lg text-[#00f2fe]" id="themeIconDark"></i>
+                </button>
+                <!-- লগইন বাটন (গেস্টদের জন্য) -->
+                <button id="headerLoginBtn" class="bg-[#00f2fe] text-black font-bold px-4 py-2 rounded-xl text-xs hover:scale-105 transition-transform flex items-center gap-1">
+                    <i class="ph ph-sign-in text-sm"></i> লগইন করুন
                 </button>
                 <button id="logoutBtn" class="glass-panel p-2.5 rounded-full text-red-500 hover:bg-red-500/10 transition-colors hidden">
                     <i class="ph ph-sign-out text-lg"></i>
@@ -284,17 +288,17 @@
             </div>
         </div>
 
-        <!-- Input Controls -->
+        <!-- Input Controls (বাটনগুলো খোলা থাকবে কিন্তু ক্লিক করলেই লগইন পপআপ আসবে) -->
         <div class="glass-panel p-5 rounded-2xl flex flex-col gap-3 relative z-10">
             <div class="flex justify-between items-center mb-1">
                 <p class="text-[11px] text-muted font-bold uppercase tracking-wide"><i class="ph ph-hand-tap mr-1"></i> ফলাফল যোগ করুন</p>
                 <p id="inputCounterDisplay" class="text-[10px] font-bold text-[#00f2fe]">০/১০ দেওয়া হয়েছে</p>
             </div>
             <div class="flex gap-4">
-                <button id="btnInputBig" disabled class="opacity-50 flex-1 bg-gradient-to-br from-[#00f2fe] to-[#0088ff] text-white font-extrabold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,242,254,0.3)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/10 cursor-not-allowed">
+                <button id="btnInputBig" class="flex-1 bg-gradient-to-br from-[#00f2fe] to-[#0088ff] text-white font-extrabold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,242,254,0.3)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/10">
                     <i class="ph-fill ph-arrow-circle-up text-xl"></i> বড় (BIG)
                 </button>
-                <button id="btnInputSmall" disabled class="opacity-50 flex-1 bg-gradient-to-br from-[#00ff87] to-[#00b35c] text-black font-extrabold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,255,135,0.3)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/10 cursor-not-allowed">
+                <button id="btnInputSmall" class="flex-1 bg-gradient-to-br from-[#00ff87] to-[#00b35c] text-black font-extrabold py-4 rounded-xl shadow-[0_4px_15px_rgba(0,255,135,0.3)] hover:scale-[1.04] transition-all flex items-center justify-center gap-2 border border-white/10">
                     <i class="ph-fill ph-arrow-circle-down text-xl"></i> ছোট (SMALL)
                 </button>
             </div>
@@ -426,7 +430,6 @@
         let userHistory = []; // Only the current user's history!
         let isLightMode = false;
         let timerInterval = null;
-        let isProfileLoading = false; // Flag to trace active loading state
         const REQUIRED_INPUTS = 10;
         const STREAK_THRESHOLD = 4; // As per your logic
 
@@ -451,10 +454,10 @@
         const closeGuideBtn = document.getElementById('closeGuideBtn');
         const gotItBtn = document.getElementById('gotItBtn');
 
-        // Loader and Input Buttons
+        // Dynamic Header Login and Logout Controls
+        const headerLoginBtn = document.getElementById('headerLoginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
         const globalLoader = document.getElementById('globalLoader');
-        const btnInputBig = document.getElementById('btnInputBig');
-        const btnInputSmall = document.getElementById('btnInputSmall');
         
         // Setup Theme Toggle
         document.getElementById('themeToggleBtn').addEventListener('click', () => {
@@ -463,21 +466,6 @@
             document.getElementById('themeIconDark').classList.toggle('hidden', isLightMode);
             document.getElementById('themeIconLight').classList.toggle('hidden', !isLightMode);
         });
-
-        // Toggle state of action buttons to prevent inputs during verification
-        function setInputsActive(active) {
-            if (active) {
-                btnInputBig.disabled = false;
-                btnInputBig.classList.remove('opacity-50', 'cursor-not-allowed');
-                btnInputSmall.disabled = false;
-                btnInputSmall.classList.remove('opacity-50', 'cursor-not-allowed');
-            } else {
-                btnInputBig.disabled = true;
-                btnInputBig.classList.add('opacity-50', 'cursor-not-allowed');
-                btnInputSmall.disabled = true;
-                btnInputSmall.classList.add('opacity-50', 'cursor-not-allowed');
-            }
-        }
 
         // ---------------- MODAL LOGIC ----------------
         function openAuthModal() {
@@ -495,6 +483,7 @@
             setTimeout(() => authModal.classList.add('hidden'), 300);
         }
         document.getElementById('closeAuthBtn').addEventListener('click', closeAuthModal);
+        headerLoginBtn.addEventListener('click', openAuthModal);
 
         // ---------------- USER GUIDE MODAL LOGIC ----------------
         function openGuideModal() {
@@ -544,6 +533,7 @@
             } catch (error) { 
                 document.getElementById('authError').textContent = "লগইন ব্যর্থ হয়েছে।"; 
                 document.getElementById('authError').classList.remove('hidden'); 
+            } finally {
                 globalLoader.classList.add('hidden');
             }
         });
@@ -557,7 +547,7 @@
             }
         }
 
-        document.getElementById('logoutBtn').addEventListener('click', () => {
+        logoutBtn.addEventListener('click', () => {
             signOut(auth);
             userHistory = [];
             btnUserGuide.classList.remove('guide-attention-btn');
@@ -565,12 +555,10 @@
         });
 
         onAuthStateChanged(auth, async (user) => {
-            globalLoader.classList.remove('hidden');
-            setInputsActive(false); // লোড চলাকালীন সম্পূর্ণ ইনপুট ব্লক
-            
             if (user) {
                 document.getElementById('guestBadge').classList.add('hidden');
-                document.getElementById('logoutBtn').classList.remove('hidden');
+                headerLoginBtn.classList.add('hidden'); // লগইন করার পর হেডার লগইন বাটন চলে যাবে
+                logoutBtn.classList.remove('hidden');
                 
                 if(user.photoURL) {
                     document.getElementById('userAvatar').src = user.photoURL;
@@ -583,7 +571,8 @@
                 updateUI();
             } else {
                 document.getElementById('guestBadge').classList.remove('hidden');
-                document.getElementById('logoutBtn').classList.add('hidden');
+                headerLoginBtn.classList.remove('hidden'); // লগইন না থাকলে হেডার লগইন বাটন দৃশ্যমান হবে
+                logoutBtn.classList.add('hidden');
                 document.getElementById('userNameDisplay').innerHTML = 'অপরিচিত ইউজার';
                 document.getElementById('trialTimerDisplay').textContent = 'লগইন করুন';
                 
@@ -596,65 +585,46 @@
                 dashPremiumBtn.classList.add('hidden');
                 if(timerInterval) clearInterval(timerInterval);
                 updateUI();
-                
-                // গেস্টদের জন্য বাটন ব্লক রাখা হবে যাতে তারা ইনপুট দিতে না পারে
-                setInputsActive(false);
-                globalLoader.classList.add('hidden');
             }
         });
 
         async function loadUserProfile(uid) {
-            isProfileLoading = true;
-            try {
-                const userRef = doc(db, "users", uid);
-                let userSnap = await getDoc(userRef);
-                currentUserData = userSnap.data();
-                userHistory = currentUserData.history || []; // Load specific user's history
-                
-                // Update User Name Display with Verified Badge if Premium
-                let badgeHtml = '';
-                if (currentUserData.isPremium) {
-                    badgeHtml = `
-                    <div style="display:inline-block; vertical-align:middle; margin-left: 6px;">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="anim-glow">
-                        <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.152-.435.248-.9.248-1.4 0-2.21-1.79-4-4-4-.5 0-.965.1-1.4.248C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.152-.9-.248-1.4-.248-2.21 0-4 1.79-4 4 0 .5.1.965.248 1.4C1.475 9.55.6 10.92.6 12.5c0 1.58.875 2.95 2.148 3.6-.152.435-.248.9-.248 1.4 0 2.21 1.79 4 4 4 .5 0 .965-.1 1.4-.248.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.152.9.248 1.4.248 2.21 0 4-1.79 4-4 0-.5-.1-.965-.248-1.4 1.273-.65 2.148-2.02 2.148-3.6z" fill="#FFD700"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86 15.17L6.69 12c-0.39-0.39-1.02-0.39-1.41 0c-0.39 0.39-0.39 1.02 0 1.41l3.88 3.88c0.39 0.39 1.02 0.39 1.41 0l7.78-7.78c0.39-0.39 0.39-1.02 0-1.41c-0.39-0.39-1.02-0.39-1.41 0L9.86 15.17z" fill="#ffffff"/>
-                      </svg>
-                    </div>`;
-                }
-                document.getElementById('userNameDisplay').innerHTML = `${auth.currentUser.displayName || 'ইউজার'} ${badgeHtml}`;
-
-                checkTrialStatus();
-                if(timerInterval) clearInterval(timerInterval);
-                timerInterval = setInterval(checkTrialStatus, 30000); // Check faster (30s)
-            } catch (err) {
-                console.error("Error loading user profile: ", err);
-            } finally {
-                isProfileLoading = false;
-                globalLoader.classList.add('hidden');
+            const userRef = doc(db, "users", uid);
+            let userSnap = await getDoc(userRef);
+            currentUserData = userSnap.data();
+            userHistory = currentUserData.history || []; // Load specific user's history
+            
+            // Update User Name Display with Verified Badge if Premium
+            let badgeHtml = '';
+            if (currentUserData.isPremium) {
+                badgeHtml = `
+                <div style="display:inline-block; vertical-align:middle; margin-left: 6px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="anim-glow">
+                    <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.152-.435.248-.9.248-1.4 0-2.21-1.79-4-4-4-.5 0-.965.1-1.4.248C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.152-.9-.248-1.4-.248-2.21 0-4 1.79-4 4 0 .5.1.965.248 1.4C1.475 9.55.6 10.92.6 12.5c0 1.58.875 2.95 2.148 3.6-.152.435-.248.9-.248 1.4 0 2.21 1.79 4 4 4 .5 0 .965-.1 1.4-.248.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.152.9.248 1.4.248 2.21 0 4-1.79 4-4 0-.5-.1-.965-.248-1.4 1.273-.65 2.148-2.02 2.148-3.6z" fill="#FFD700"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86 15.17L6.69 12c-0.39-0.39-1.02-0.39-1.41 0c-0.39 0.39-0.39 1.02 0 1.41l3.88 3.88c0.39 0.39 1.02 0.39 1.41 0l7.78-7.78c0.39-0.39 0.39-1.02 0-1.41c-0.39-0.39-1.02-0.39-1.41 0L9.86 15.17z" fill="#ffffff"/>
+                  </svg>
+                </div>`;
             }
+            document.getElementById('userNameDisplay').innerHTML = `${auth.currentUser.displayName || 'ইউজার'} ${badgeHtml}`;
+
+            checkTrialStatus();
+            if(timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(checkTrialStatus, 15000); // প্রতি ১৫ সেকেন্ড পর পর দ্রুত ট্রায়াল স্টেট চেক হবে যাতে কোনো লেট না হয়
         }
 
         function checkTrialStatus() {
-            if (!currentUserData) {
-                setInputsActive(false);
-                return;
-            }
+            if (!currentUserData) return;
             const now = Date.now();
             const ageMs = now - currentUserData.createdAt;
             // ৩ ঘণ্টা (৩ * ৬০ * ৬০ * ১০০০) মিলি সেকেন্ডস নির্ধারণ করা হয়েছে
             const hours3Ms = 3 * 60 * 60 * 1000;
 
             if (ageMs > hours3Ms && !currentUserData.isPremium) {
-                // লক সক্রিয়
                 paywallScreen.classList.remove('hidden');
                 setTimeout(() => paywallScreen.classList.remove('opacity-0'), 10);
                 document.getElementById('trialTimerDisplay').textContent = "ট্রায়াল শেষ (Expired)";
                 document.getElementById('trialTimerDisplay').style.color = "#ff3366";
                 dashPremiumBtn.classList.remove('hidden');
-                
-                // ৩ ঘণ্টা শেষ এবং প্রিমিয়াম না থাকলে ইনপুট বাটন সম্পূর্ণ ব্লক
-                setInputsActive(false);
             } else {
                 paywallScreen.classList.add('opacity-0');
                 setTimeout(() => paywallScreen.classList.add('hidden'), 500);
@@ -663,9 +633,6 @@
                     document.getElementById('trialTimerDisplay').textContent = "প্রিমিয়াম মেম্বার";
                     document.getElementById('trialTimerDisplay').style.color = "#00ff87";
                     dashPremiumBtn.classList.add('hidden');
-                    
-                    // প্রিমিয়ামের জন্য বাটন সর্বদা সচল থাকবে (যদি লোডিং সম্পন্ন হয়ে থাকে)
-                    if (!isProfileLoading) setInputsActive(true);
                 } else {
                     const remainingMs = hours3Ms - ageMs;
                     const remHours = Math.floor(remainingMs / (1000 * 60 * 60));
@@ -673,9 +640,6 @@
                     document.getElementById('trialTimerDisplay').textContent = `ট্রায়াল বাকি: ${convertEngToBng(remHours)}ঘ ${convertEngToBng(remMins)}মি`;
                     document.getElementById('trialTimerDisplay').style.color = "#00f2fe";
                     dashPremiumBtn.classList.remove('hidden');
-                    
-                    // ফ্রি ট্রায়াল রিমেইনিং থাকলে ইনপুট বাটন সচল করা হবে
-                    if (!isProfileLoading) setInputsActive(true);
                 }
             }
         }
@@ -690,22 +654,19 @@
 
         // ---------------- INPUT & HISTORY LOGIC ----------------
         async function feedOutcome(outcome) {
-            // ১. ইনস্ট্যান্ট সেশন/ইউজার চেক
+            // ১. লগইন না থাকলে সরাসরি পপআপ আসবে (বাটন লকড বা ব্লকড থাকবে না, আগের মতো ওপেনলি কাজ করবে)
             if (!auth.currentUser || !currentUserData) {
                 openAuthModal();
                 return;
             }
 
-            // ২. ইনস্ট্যান্ট ট্রায়াল চেক (কোন প্রকার দেরি বা হ্যাকিং এড়াতে বাটন প্রেসের সাথে সাথেই কড়া ভ্যালিডেশন)
+            // ২. ইনস্ট্যান্ট ট্রায়াল চেক (কোন প্রকার বিলম্ব এড়াতে বাটন প্রেসের সাথে সাথেই কড়া ভ্যালিডেশন)
             const ageMs = Date.now() - currentUserData.createdAt;
             const hours3Ms = 3 * 3600 * 1000;
             if (ageMs > hours3Ms && !currentUserData.isPremium) {
                 checkTrialStatus();
                 return;
             }
-
-            // ৩. বাটন সাময়িকভাবে ডিসেবল করে ডাবল সাবমিশন রদ করা
-            setInputsActive(false);
             
             userHistory.push(outcome);
             if (userHistory.length > 1000) userHistory.shift(); // Keep max 1000
@@ -718,9 +679,6 @@
                 await updateDoc(userRef, { history: userHistory });
             } catch(e) {
                 console.error("Firebase Sync Error", e);
-            } finally {
-                // ডাটাবেস প্রসেস সম্পন্ন হওয়ার পর বাটন পুনরায় সচল করা
-                checkTrialStatus();
             }
         }
 
