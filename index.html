@@ -11,16 +11,16 @@
 <meta property="og:url" content="https://bigsmall24.vercel.app/">
 <meta property="og:title" content="প্রিমিয়াম এআই প্রেডিকশন ইঞ্জিন | কালেক্টিভ ইন্টেলিজেন্স">
 <meta property="og:description" content="বিশুদ্ধ গণিত এবং গ্লোবাল ডেটার ওপর ভিত্তি করে তৈরি অ্যাডভান্সড এআই প্রেডিকশন সিস্টেম। স্মার্ট অবজারভেশন এবং ডায়নামিক মার্কভ চেইন অ্যানালাইসিসের মাধ্যমে আপনার প্রেডিকশনকে করুন আরও নিরাপদ।">
-<!-- নিচে আপনার ডিরেক্ট ইমেজ লিংকটি বসাবেন -->
-<meta property="og:image" content="https://i.ibb.co/আপনার-ডিরেক্ট-ইমেজ-লিংক.png"> 
+<!-- নিচে আপনার ডিরেক্ট ইমেজ লিংকটি বসানো হয়েছে -->
+<meta property="og:image" content="https://i.postimg.cc/cH4tNQ5N/1780206619942-2.jpg"> 
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:url" content="https://bigsmall24.vercel.app/">
 <meta property="twitter:title" content="প্রিমিয়াম এআই প্রেডিকশন ইঞ্জিন | কালেক্টিভ ইন্টেলিজেন্স">
 <meta property="twitter:description" content="বিশুদ্ধ গণিত এবং গ্লোবাল ডেটার ওপর ভিত্তি করে তৈরি অ্যাডভান্সড এআই প্রেডিকশন সিস্টেম। স্মার্ট অবজারভেশন এবং ডায়নামিক মার্কভ চেইন অ্যানালাইসিসের মাধ্যমে আপনার প্রেডিকশনকে করুন আরও নিরাপদ।">
-<!-- নিচে আপনার ডিরেক্ট ইমেজ লিংকটি বসাবেন -->
-<meta property="twitter:image" content="https://i.ibb.co/আপনার-ডিরেক্ট-ইমেজ-লিংক.png">
+<!-- নিচে আপনার ডিরেক্ট ইমেজ লিংকটি বসানো হয়েছে -->
+<meta property="twitter:image" content="https://i.postimg.cc/cH4tNQ5N/1780206619942-2.jpg">
 
     
     <meta charset="UTF-8">
@@ -154,6 +154,32 @@
             background: white; color: #444; transition: all 0.3s; border: 1px solid #ddd;
         }
         .google-btn:hover { box-shadow: 0 4px 20px rgba(255,255,255,0.4); transform: translateY(-2px); }
+
+        /* Verified Badge Glow Effect CSS */
+        .anim-glow {
+            transform-origin: center;
+            animation: glow-effect 2.2s infinite ease-in-out;
+        }
+        @keyframes glow-effect { 
+            0%, 100% { filter: drop-shadow(0 0 3px #FFD700); } 
+            50% { filter: drop-shadow(0 0 10px #FFD700); } 
+        }
+
+        /* First Time Alert / Attention Animation for User Guide */
+        @keyframes attentionGlow {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 10px rgba(0, 255, 135, 0.4);
+                transform: scale(1.05);
+            }
+        }
+        .guide-attention-btn {
+            animation: attentionGlow 1.8s infinite ease-in-out;
+            border-color: #00f2fe !important;
+        }
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center relative pb-10">
@@ -161,6 +187,12 @@
     <!-- ==================== MAIN DASHBOARD ==================== -->
     <div id="mainDashboard" class="w-full max-w-lg px-4 pt-8 flex flex-col gap-5">
         
+        <!-- Logo & Brand Header -->
+        <div class="flex items-center gap-3 justify-center mt-2 mb-1">
+            <img src="https://i.postimg.cc/cH4tNQ5N/1780206619942-2.jpg" alt="Logo" class="w-12 h-12 rounded-xl border border-[#00f2fe]/30 shadow-[0_0_15px_rgba(0,242,254,0.25)]">
+            <h1 class="text-xl font-black bg-gradient-to-r from-[#00f2fe] to-[#00ff87] bg-clip-text text-transparent uppercase tracking-wider">Premium AI Prediction</h1>
+        </div>
+
         <!-- Top Actions -->
         <div class="flex justify-between items-center mb-1">
             <div id="guestBadge" class="bg-blue-500/10 text-blue-500 border border-blue-500/30 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 animate-pulse">
@@ -185,7 +217,7 @@
                     <i class="ph ph-user-circle"></i>
                 </div>
                 <div>
-                    <h2 class="font-bold text-base" id="userNameDisplay">অপরিচিত ইউজার</h2>
+                    <h2 class="font-bold text-base flex items-center" id="userNameDisplay">অপরিচিত ইউজার</h2>
                     <div class="flex items-center gap-1.5 mt-0.5">
                         <p class="text-xs text-muted font-semibold tracking-wide" id="trialTimerDisplay">লগইন করুন</p>
                     </div>
@@ -260,6 +292,14 @@
             </div>
         </div>
 
+        <!-- User Guide Button Footer -->
+        <div class="flex justify-center mt-2 relative z-10">
+            <button id="btnUserGuide" class="glass-panel px-6 py-3.5 rounded-2xl font-bold flex items-center gap-2.5 border border-white/10 hover:bg-[#00f2fe]/10 transition-all text-sm shadow-md">
+                <i class="ph-fill ph-book-open text-lg text-[#00f2fe]"></i>
+                <span>ইউজার গাইড (User Guide)</span>
+            </button>
+        </div>
+
     </div>
 
     <!-- ==================== AUTH LOGIN MODAL ==================== -->
@@ -283,6 +323,58 @@
         </div>
     </div>
 
+    <!-- ==================== USER GUIDE MODAL (NEW) ==================== -->
+    <div id="guideModal" class="fixed inset-0 modal-overlay flex items-center justify-center px-6 hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel p-6 rounded-[2rem] w-full max-w-md relative overflow-hidden transform scale-95 transition-transform duration-300" id="guideModalContent">
+            <button id="closeGuideBtn" class="absolute top-4 right-4 text-muted hover:text-[var(--text-primary)]">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
+            <div class="flex items-center gap-3 mb-4 mt-2">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00f2fe] to-[#00ff87] flex items-center justify-center text-black font-bold">
+                    <i class="ph-fill ph-book-open text-xl"></i>
+                </div>
+                <h2 class="text-xl font-extrabold tracking-wide">Big/Small Prediction Guide</h2>
+            </div>
+            <div class="text-sm overflow-y-auto max-h-[70vh] pr-1 flex flex-col gap-4 text-left leading-relaxed">
+                <p class="text-[#00ff87] font-semibold text-center border border-[#00ff87]/20 bg-[#00ff87]/5 py-2 px-3 rounded-xl">
+                    🎮 কম সময়ে বেশি লাভ! অ্যাপটি ব্যবহার করে পরবর্তী রেজাল্ট Big নাকি Small আসবে তা জানতে এই ৩টি সহজ স্টেপ ফলো করুন:
+                </p>
+                <div class="inner-box p-4 rounded-xl">
+                    <h3 class="font-extrabold text-[#00f2fe] flex items-center gap-1.5 mb-1 text-sm">
+                        <span class="bg-[#00f2fe]/20 text-[#00f2fe] w-5 h-5 flex items-center justify-center rounded text-xs font-black">1</span>
+                        প্রথম কাজ (১০টি রেজাল্ট দিন)
+                    </h3>
+                    <p class="text-xs text-muted pl-6">আপনি যে প্ল্যাটফর্মে খেলছেন, সেখানকার সর্বশেষ ১০টি রেজাল্ট একে একে অ্যাপে ইনপুট দিন। <br><span class="text-orange-400 font-semibold">(মনে রাখবেন: ইনপুট অবশ্যই নিচ থেকে উপরে অর্থাৎ পুরনো থেকে নতুনের দিকে দিতে হবে।)</span></p>
+                </div>
+                <div class="inner-box p-4 rounded-xl">
+                    <h3 class="font-extrabold text-[#00f2fe] flex items-center gap-1.5 mb-1 text-sm">
+                        <span class="bg-[#00f2fe]/20 text-[#00f2fe] w-5 h-5 flex items-center justify-center rounded text-xs font-black">2</span>
+                        প্রেডিকশন নিন
+                    </h3>
+                    <p class="text-xs text-muted pl-6">১০টি রেজাল্ট দেওয়ার সাথে সাথেই ইঞ্জিন আপনাকে পরবর্তী ম্যাচের জন্য একটি Big অথবা Small এর প্রেডিকশন (অনুমান) দেবে।</p>
+                </div>
+                <div class="inner-box p-4 rounded-xl">
+                    <h3 class="font-extrabold text-[#ff3366] flex items-center gap-1.5 mb-1 text-sm">
+                        <span class="bg-[#ff3366]/20 text-[#ff3366] w-5 h-5 flex items-center justify-center rounded text-xs font-black">3</span>
+                        বাস্তব রেজাল্ট আপডেট করুন (সবচেয়ে ইম্পর্ট্যান্ট!)
+                    </h3>
+                    <p class="text-xs text-muted pl-6">প্রেডিকশন দেখার পর গেম খেলুন। ম্যাচ শেষে ওয়েবসাইটে বাস্তবে যা আসবে (Big বা Small), সেটাই অ্যাপে ইনপুট দিন।</p>
+                    <div class="mt-2 text-[10px] pl-6 flex flex-col gap-1">
+                        <span class="text-red-400 font-medium"><i class="ph ph-x-circle mr-1"></i>প্রেডিকশন ভুল হলেও: বাস্তবে যা এসেছে সেটাই দিন।</span>
+                        <span class="text-green-400 font-medium"><i class="ph ph-check-circle mr-1"></i>প্রেডিকশন মিললেও: বাস্তবে যা এসেছে সেটাই দিন।</span>
+                    </div>
+                </div>
+                <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+                    <h3 class="font-extrabold text-orange-400 text-xs mb-1">🔄 এরপর কি?</h3>
+                    <p class="text-[11px] text-muted">বাস্তব রেজাল্ট দেওয়ার সাথে সাথেই অ্যাপ আপনাকে পরের ম্যাচের জন্য নতুন প্রেডিকশন দিয়ে দেবে! যত সঠিক রিয়েল ডেটা দেবেন, প্রেডিকশন তত নিখুঁত হবে।</p>
+                </div>
+            </div>
+            <button id="gotItBtn" class="premium-btn w-full font-bold py-3 rounded-xl mt-5 hover:scale-[1.02] transition-transform text-sm">
+                বুঝেছি, শুরু করি!
+            </button>
+        </div>
+    </div>
+
     <!-- ==================== PREMIUM PAYWALL OVERLAY ==================== -->
     <div id="paywallScreen" class="fixed inset-0 modal-overlay flex items-center justify-center px-6 hidden opacity-0 transition-opacity duration-500">
         <div class="glass-panel p-10 rounded-[2.5rem] w-full max-w-sm text-center border-2 border-[#ff3366] shadow-[0_0_60px_rgba(255,51,102,0.25)] relative overflow-hidden">
@@ -290,7 +382,8 @@
                 <i class="ph-fill ph-lock-key text-5xl text-[#ff3366]"></i>
             </div>
             <h2 class="text-3xl font-black mb-3 text-[#ff3366]">ট্রায়াল শেষ!</h2>
-            <p class="text-sm text-muted mb-8 leading-relaxed">আপনার <span class="font-bold text-[var(--text-primary)]">২৪ ঘণ্টার ফ্রি ট্রায়াল</span> শেষ হয়েছে। প্রেডিকশন চালিয়ে যেতে প্রিমিয়াম সাবস্ক্রিপশন নিন।</p>
+            <!-- ফ্রি ট্রায়াল ২৪ ঘণ্টা থেকে ৩ ঘণ্টা করা হয়েছে -->
+            <p class="text-sm text-muted mb-8 leading-relaxed">আপনার <span class="font-bold text-[var(--text-primary)]">৩ ঘণ্টার ফ্রি ট্রায়াল</span> শেষ হয়েছে। প্রেডিকশন চালিয়ে যেতে প্রিমিয়াম সাবস্ক্রিপশন নিন।</p>
             <button id="buyPremiumBtn" class="premium-btn w-full font-extrabold py-4 rounded-xl hover:scale-[1.03] transition-transform flex items-center justify-center gap-3 text-lg">
                 <i class="ph ph-whatsapp-logo text-2xl"></i> প্রিমিয়াম অ্যাক্সেস নিন
             </button>
@@ -341,6 +434,13 @@
         const outText = document.getElementById('predictionText');
         const scanningRing = document.getElementById('scanningRing');
         const predModeDisplay = document.getElementById('predModeDisplay');
+
+        // New DOM Elements for Guide Modal
+        const guideModal = document.getElementById('guideModal');
+        const guideModalContent = document.getElementById('guideModalContent');
+        const btnUserGuide = document.getElementById('btnUserGuide');
+        const closeGuideBtn = document.getElementById('closeGuideBtn');
+        const gotItBtn = document.getElementById('gotItBtn');
         
         // Setup Theme Toggle
         document.getElementById('themeToggleBtn').addEventListener('click', () => {
@@ -367,6 +467,31 @@
         }
         document.getElementById('closeAuthBtn').addEventListener('click', closeAuthModal);
 
+        // ---------------- USER GUIDE MODAL LOGIC (NEW) ----------------
+        function openGuideModal() {
+            guideModal.classList.remove('hidden');
+            setTimeout(() => {
+                guideModal.classList.remove('opacity-0');
+                guideModalContent.classList.remove('scale-95');
+                guideModalContent.classList.add('scale-100');
+            }, 10);
+            
+            // একবার দেখে ফেললে এনিমেশন সরিয়ে ফেলুন চিরতরে
+            btnUserGuide.classList.remove('guide-attention-btn');
+            localStorage.setItem('hasSeenGuide', 'true');
+        }
+
+        function closeGuideModal() {
+            guideModal.classList.add('opacity-0');
+            guideModalContent.classList.remove('scale-100');
+            guideModalContent.classList.add('scale-95');
+            setTimeout(() => guideModal.classList.add('hidden'), 300);
+        }
+
+        btnUserGuide.addEventListener('click', openGuideModal);
+        closeGuideBtn.addEventListener('click', closeGuideModal);
+        gotItBtn.addEventListener('click', closeGuideModal);
+
         // ---------------- AUTHENTICATION LOGIC ----------------
         document.getElementById('googleLoginBtn').addEventListener('click', async () => {
             try { 
@@ -385,15 +510,28 @@
                     });
                 }
                 closeAuthModal();
+                
+                // প্রথমবারের জন্য লগইন করার পর যদি আগে গাইড না দেখে থাকে, তবে এনিমেশন ট্রিগার
+                checkFirstTimeGuide();
             } catch (error) { 
                 document.getElementById('authError').textContent = "লগইন ব্যর্থ হয়েছে।"; 
                 document.getElementById('authError').classList.remove('hidden'); 
             }
         });
 
+        // প্রথমবার ব্যবহারকারী কি না তা চেক করার ফাংশন
+        function checkFirstTimeGuide() {
+            const hasSeen = localStorage.getItem('hasSeenGuide');
+            if (!hasSeen) {
+                // অ্যানিমেশন যুক্ত হবে দৃষ্টি আকর্ষণ করার জন্য
+                btnUserGuide.classList.add('guide-attention-btn');
+            }
+        }
+
         document.getElementById('logoutBtn').addEventListener('click', () => {
             signOut(auth);
             userHistory = [];
+            btnUserGuide.classList.remove('guide-attention-btn');
             updateUI();
         });
 
@@ -401,7 +539,6 @@
             if (user) {
                 document.getElementById('guestBadge').classList.add('hidden');
                 document.getElementById('logoutBtn').classList.remove('hidden');
-                document.getElementById('userNameDisplay').textContent = user.displayName || 'ইউজার';
                 
                 if(user.photoURL) {
                     document.getElementById('userAvatar').src = user.photoURL;
@@ -410,11 +547,12 @@
                 }
 
                 await loadUserProfile(user.uid);
+                checkFirstTimeGuide();
                 updateUI();
             } else {
                 document.getElementById('guestBadge').classList.remove('hidden');
                 document.getElementById('logoutBtn').classList.add('hidden');
-                document.getElementById('userNameDisplay').textContent = 'অপরিচিত ইউজার';
+                document.getElementById('userNameDisplay').innerHTML = 'অপরিচিত ইউজার';
                 document.getElementById('trialTimerDisplay').textContent = 'লগইন করুন';
                 
                 document.getElementById('userAvatar').classList.add('hidden');
@@ -435,6 +573,19 @@
             currentUserData = userSnap.data();
             userHistory = currentUserData.history || []; // Load specific user's history
             
+            // Update User Name Display with Verified Badge if Premium
+            let badgeHtml = '';
+            if (currentUserData.isPremium) {
+                badgeHtml = `
+                <div style="display:inline-block; vertical-align:middle; margin-left: 6px;">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" class="anim-glow">
+                    <path d="M22.5 12.5c0-1.58-.875-2.95-2.148-3.6.152-.435.248-.9.248-1.4 0-2.21-1.79-4-4-4-.5 0-.965.1-1.4.248C14.55 2.475 13.18 1.6 11.6 1.6c-1.58 0-2.95.875-3.6 2.148-.435-.152-.9-.248-1.4-.248-2.21 0-4 1.79-4 4 0 .5.1.965.248 1.4C1.475 9.55.6 10.92.6 12.5c0 1.58.875 2.95 2.148 3.6-.152.435-.248.9-.248 1.4 0 2.21 1.79 4 4 4 .5 0 .965-.1 1.4-.248.65 1.273 2.02 2.148 3.6 2.148 1.58 0 2.95-.875 3.6-2.148.435.152.9.248 1.4.248 2.21 0 4-1.79 4-4 0-.5-.1-.965-.248-1.4 1.273-.65 2.148-2.02 2.148-3.6z" fill="#FFD700"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86 15.17L6.69 12c-0.39-0.39-1.02-0.39-1.41 0c-0.39 0.39-0.39 1.02 0 1.41l3.88 3.88c0.39 0.39 1.02 0.39 1.41 0l7.78-7.78c0.39-0.39 0.39-1.02 0-1.41c-0.39-0.39-1.02-0.39-1.41 0L9.86 15.17z" fill="#ffffff"/>
+                  </svg>
+                </div>`;
+            }
+            document.getElementById('userNameDisplay').innerHTML = `${auth.currentUser.displayName || 'ইউজার'} ${badgeHtml}`;
+
             checkTrialStatus();
             if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(checkTrialStatus, 60000);
@@ -444,9 +595,10 @@
             if (!currentUserData) return;
             const now = Date.now();
             const ageMs = now - currentUserData.createdAt;
-            const hours24Ms = 24 * 60 * 60 * 1000;
+            // ২৪ ঘণ্টার পরিবর্তে ৩ ঘণ্টা (৩ * ৬০ * ৬০ * ১০০০) মিলি সেকেন্ডস নির্ধারণ করা হয়েছে
+            const hours3Ms = 3 * 60 * 60 * 1000;
 
-            if (ageMs > hours24Ms && !currentUserData.isPremium) {
+            if (ageMs > hours3Ms && !currentUserData.isPremium) {
                 paywallScreen.classList.remove('hidden');
                 setTimeout(() => paywallScreen.classList.remove('opacity-0'), 10);
                 document.getElementById('trialTimerDisplay').textContent = "ট্রায়াল শেষ (Expired)";
@@ -460,7 +612,7 @@
                     document.getElementById('trialTimerDisplay').style.color = "#00ff87";
                     dashPremiumBtn.classList.add('hidden');
                 } else {
-                    const remainingMs = hours24Ms - ageMs;
+                    const remainingMs = hours3Ms - ageMs;
                     const remHours = Math.floor(remainingMs / (1000 * 60 * 60));
                     const remMins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
                     document.getElementById('trialTimerDisplay').textContent = `ট্রায়াল বাকি: ${convertEngToBng(remHours)}ঘ ${convertEngToBng(remMins)}মি`;
@@ -484,7 +636,8 @@
                 openAuthModal();
                 return;
             }
-            if (Date.now() - currentUserData.createdAt > 24*3600*1000 && !currentUserData.isPremium) return;
+            // ট্রায়াল সময়সীমা ২৪ ঘণ্টার পরিবর্তে ৩ ঘণ্টা ভেরিফিকেশন করা হয়েছে
+            if (Date.now() - currentUserData.createdAt > 3*3600*1000 && !currentUserData.isPremium) return;
             
             userHistory.push(outcome);
             if (userHistory.length > 1000) userHistory.shift(); // Keep max 1000
