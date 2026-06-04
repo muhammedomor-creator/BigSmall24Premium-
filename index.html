@@ -11,7 +11,6 @@
 <meta property="og:url" content="https://bigsmall24.vercel.app/">
 <meta property="og:title" content="প্রিমিয়াম এআই প্রেডিকশন ইঞ্জিন | কালেক্টিভ ইন্টেলিজেন্স">
 <meta property="og:description" content="বিশুদ্ধ গণিত এবং গ্লোবাল ডেটার ওপর ভিত্তি করে তৈরি অ্যাডভান্সড এআই প্রেডিকশন সিস্টেম। স্মার্ট অবজারভেশন এবং ডায়নামিক মার্কভ চেইন অ্যানালাইসিসের মাধ্যমে আপনার প্রেডিকশনকে করুন আরও নিরাপদ।">
-<!-- নিচে আপনার ডিরেক্ট ইমেজ লিংকটি বসানো হয়েছে -->
 <meta property="og:image" content="https://i.postimg.cc/cH4tNQ5N/1780206619942-2.jpg"> 
 
 <!-- Twitter -->
@@ -19,10 +18,8 @@
 <meta property="twitter:url" content="https://bigsmall24.vercel.app/">
 <meta property="twitter:title" content="প্রিমিয়াম এআই প্রেডিকশন ইঞ্জিন | কালেক্টিভ ইন্টেলিজেন্স">
 <meta property="twitter:description" content="বিশুদ্ধ গণিত এবং গ্লোবাল ডেটার ওপর ভিত্তি করে তৈরি অ্যাডভান্সড এআই প্রেডিকশন সিস্টেম। স্মার্ট অবজারভেশন এবং ডায়নামিক মার্কভ চেইন অ্যানালাইসিসের মাধ্যমে আপনার প্রেডিকশনকে করুন আরও নিরাপদ।">
-<!-- নিচে আপনার ডিরেক্ট ইমেজ লিংকটি বসানো হয়েছে -->
 <meta property="twitter:image" content="https://i.postimg.cc/cH4tNQ5N/1780206619942-2.jpg">
 
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium AI Prediction Engine</title>
@@ -114,9 +111,14 @@
             0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 135, 0.3), inset 0 0 20px rgba(0, 255, 135, 0.3); border-color: #00ff87; }
             50% { box-shadow: 0 0 50px rgba(0, 255, 135, 0.6), inset 0 0 30px rgba(0, 255, 135, 0.6); border-color: var(--text-primary); }
         }
+        @keyframes pulseGlowSkip {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.3), inset 0 0 20px rgba(255, 51, 102, 0.3); border-color: #ff3366; }
+            50% { box-shadow: 0 0 50px rgba(255, 51, 102, 0.6), inset 0 0 30px rgba(255, 51, 102, 0.6); border-color: var(--text-primary); }
+        }
 
         .pred-active-b { animation: pulseGlowB 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #00f2fe; }
         .pred-active-s { animation: pulseGlowS 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #00ff87; }
+        .pred-active-skip { animation: pulseGlowSkip 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #ff3366; }
         .pred-wait { border-color: var(--border-inner); color: var(--text-secondary); }
 
         .history-badge {
@@ -155,7 +157,6 @@
         }
         .google-btn:hover { box-shadow: 0 4px 20px rgba(255,255,255,0.4); transform: translateY(-2px); }
 
-        /* Verified Badge Glow Effect CSS */
         .anim-glow {
             transform-origin: center;
             animation: glow-effect 2.2s infinite ease-in-out;
@@ -165,16 +166,9 @@
             50% { filter: drop-shadow(0 0 10px #FFD700); } 
         }
 
-        /* First Time Alert / Attention Animation for User Guide */
         @keyframes attentionGlow {
-            0%, 100% {
-                box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 10px rgba(0, 255, 135, 0.4);
-                transform: scale(1.05);
-            }
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 242, 254, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 10px rgba(0, 255, 135, 0.4); transform: scale(1.05); }
         }
         .guide-attention-btn {
             animation: attentionGlow 1.8s infinite ease-in-out;
@@ -184,7 +178,7 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center relative pb-10">
 
-    <!-- global silent spinner just to load initial authentication state, does not block user interaction -->
+    <!-- Global Loader -->
     <div id="globalLoader" class="fixed inset-0 modal-overlay flex flex-col items-center justify-center z-[10000] hidden">
         <div class="glass-panel p-8 rounded-3xl flex flex-col items-center gap-4 text-center">
             <div class="w-12 h-12 border-4 border-[#00f2fe] border-t-transparent rounded-full animate-spin"></div>
@@ -211,7 +205,6 @@
                     <i class="ph ph-sun text-lg text-orange-500 hidden" id="themeIconLight"></i>
                     <i class="ph ph-moon text-lg text-[#00f2fe]" id="themeIconDark"></i>
                 </button>
-                <!-- লগইন বাটন (গেস্টদের জন্য) -->
                 <button id="headerLoginBtn" class="bg-[#00f2fe] text-black font-bold px-4 py-2 rounded-xl text-xs hover:scale-105 transition-transform flex items-center gap-1">
                     <i class="ph ph-sign-in text-sm"></i> লগইন করুন
                 </button>
@@ -266,7 +259,7 @@
                 </div>
             </div>
 
-            <!-- Algorithm Mode Indicator (New Feature from index 20 logic) -->
+            <!-- Algorithm Mode Indicator -->
             <div id="predModeDisplay" class="bg-white/10 px-4 py-1.5 rounded-full text-xs font-bold text-[#00f2fe] border border-white/10 mb-6 hidden">
                 লজিক লোড হচ্ছে...
             </div>
@@ -288,7 +281,7 @@
             </div>
         </div>
 
-        <!-- Input Controls (বাটনগুলো খোলা থাকবে কিন্তু ক্লিক করলেই লগইন পপআপ আসবে) -->
+        <!-- Input Controls -->
         <div class="glass-panel p-5 rounded-2xl flex flex-col gap-3 relative z-10">
             <div class="flex justify-between items-center mb-1">
                 <p class="text-[11px] text-muted font-bold uppercase tracking-wide"><i class="ph ph-hand-tap mr-1"></i> ফলাফল যোগ করুন</p>
@@ -326,7 +319,7 @@
                 </div>
             </div>
             <h2 class="text-2xl font-extrabold mb-2">লগইন প্রয়োজন</h2>
-            <p class="text-sm text-muted mb-8">পার্সোনাল ডেটাবেস এবং এআই ইঞ্জিন ব্যবহার করতে আপনার একাউন্টে সাইন-ইন করুন।</p>
+            <p class="text-sm text-muted mb-8">পার্সোনাল ডেটাবেস এবং এআই ইঞ্জিন ব্যবহার করতে আপনার অ্যাকাউন্টে সাইন-ইন করুন।</p>
             <button id="googleLoginBtn" class="google-btn w-full font-bold py-4 rounded-xl flex items-center justify-center gap-3 text-lg">
                 <svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><g transform="matrix(1, 0, 0, 1, 27.009001, -39.238998)"><path fill="#4285F4" d="M -3.264 51.509 C -3.264 50.719 -3.334 49.969 -3.454 49.239 L -14.754 49.239 L -14.754 53.749 L -8.284 53.749 C -8.574 55.229 -9.424 56.479 -10.684 57.329 L -10.684 60.329 L -6.824 60.329 C -4.564 58.239 -3.264 55.159 -3.264 51.509 Z"/><path fill="#34A853" d="M -14.754 63.239 C -11.514 63.239 -8.804 62.159 -6.824 60.329 L -10.684 57.329 C -11.764 58.049 -13.134 58.489 -14.754 58.489 C -17.884 58.489 -20.534 56.369 -21.484 53.529 L -25.464 53.529 L -25.464 56.619 C -23.494 60.539 -19.444 63.239 -14.754 63.239 Z"/><path fill="#FBBC05" d="M -21.484 53.529 C -21.734 52.809 -21.864 52.039 -21.864 51.239 C -21.864 50.439 -21.724 49.669 -21.484 48.949 L -21.484 45.859 L -25.464 45.859 C -26.284 47.479 -26.754 49.299 -26.754 51.239 C -26.754 53.179 -26.284 54.999 -25.464 56.619 L -21.484 53.529 Z"/><path fill="#EA4335" d="M -14.754 43.989 C -12.984 43.989 -11.404 44.599 -10.154 45.789 L -6.734 42.369 C -8.804 40.429 -11.514 39.239 -14.754 39.239 C -19.444 39.239 -23.494 41.939 -25.464 45.859 L -21.484 48.949 C -20.534 46.109 -17.884 43.989 -14.754 43.989 Z"/></g></svg>
                 Google দিয়ে লগইন করুন
@@ -390,12 +383,15 @@
     <!-- ==================== PREMIUM PAYWALL OVERLAY ==================== -->
     <div id="paywallScreen" class="fixed inset-0 modal-overlay flex items-center justify-center px-6 hidden opacity-0 transition-opacity duration-500">
         <div class="glass-panel p-10 rounded-[2.5rem] w-full max-w-sm text-center border-2 border-[#ff3366] shadow-[0_0_60px_rgba(255,51,102,0.25)] relative overflow-hidden">
+            <!-- Close button for closeable reminder triggers -->
+            <button id="closePaywallBtn" class="absolute top-4 right-4 text-muted hover:text-[var(--text-primary)] hidden">
+                <i class="ph ph-x text-2xl"></i>
+            </button>
             <div class="w-24 h-24 mx-auto bg-[#ff3366]/10 rounded-full flex items-center justify-center mb-6 border border-[#ff3366]/30">
                 <i class="ph-fill ph-lock-key text-5xl text-[#ff3366]"></i>
             </div>
-            <h2 class="text-3xl font-black mb-3 text-[#ff3366]">ট্রায়াল শেষ!</h2>
-            <!-- ফ্রি ট্রায়াল ২৪ ঘণ্টা থেকে ৩ ঘণ্টা করা হয়েছে -->
-            <p class="text-sm text-muted mb-8 leading-relaxed">আপনার <span class="font-bold text-[var(--text-primary)]">৩ ঘণ্টার ফ্রি ট্রায়াল</span> শেষ হয়েছে। প্রেডিকশন চালিয়ে যেতে প্রিমিয়াম সাবস্ক্রিপশন নিন।</p>
+            <h2 id="paywallTitle" class="text-3xl font-black mb-3 text-[#ff3366]">ট্রায়াল শেষ!</h2>
+            <p id="paywallText" class="text-sm text-muted mb-8 leading-relaxed">আপনার <span class="font-bold text-[var(--text-primary)]">১ ঘণ্টার ফ্রি ট্রায়াল</span> শেষ হয়েছে। প্রেডিকশন চালিয়ে যেতে প্রিমিয়াম সাবস্ক্রিপশন নিন।</p>
             <button id="buyPremiumBtn" class="premium-btn w-full font-extrabold py-4 rounded-xl hover:scale-[1.03] transition-transform flex items-center justify-center gap-3 text-lg">
                 <i class="ph ph-whatsapp-logo text-2xl"></i> প্রিমিয়াম অ্যাক্সেস নিন
             </button>
@@ -427,11 +423,11 @@
 
         // System State
         let currentUserData = null;
-        let userHistory = []; // Only the current user's history!
+        let userHistory = []; 
         let isLightMode = false;
         let timerInterval = null;
         const REQUIRED_INPUTS = 10;
-        const STREAK_THRESHOLD = 4; // As per your logic
+        const STREAK_THRESHOLD = 4; 
 
         // Bengali Numeral Converter
         const bngNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
@@ -447,14 +443,13 @@
         const scanningRing = document.getElementById('scanningRing');
         const predModeDisplay = document.getElementById('predModeDisplay');
 
-        // New DOM Elements for Guide Modal
         const guideModal = document.getElementById('guideModal');
         const guideModalContent = document.getElementById('guideModalContent');
         const btnUserGuide = document.getElementById('btnUserGuide');
         const closeGuideBtn = document.getElementById('closeGuideBtn');
         const gotItBtn = document.getElementById('gotItBtn');
+        const closePaywallBtn = document.getElementById('closePaywallBtn');
 
-        // Dynamic Header Login and Logout Controls
         const headerLoginBtn = document.getElementById('headerLoginBtn');
         const logoutBtn = document.getElementById('logoutBtn');
         const globalLoader = document.getElementById('globalLoader');
@@ -494,7 +489,6 @@
                 guideModalContent.classList.add('scale-100');
             }, 10);
             
-            // একবার দেখে ফেললে এনিমেশন সরিয়ে ফেলুন চিরতরে
             btnUserGuide.classList.remove('guide-attention-btn');
             localStorage.setItem('hasSeenGuide', 'true');
         }
@@ -509,6 +503,11 @@
         btnUserGuide.addEventListener('click', openGuideModal);
         closeGuideBtn.addEventListener('click', closeGuideModal);
         gotItBtn.addEventListener('click', closeGuideModal);
+
+        closePaywallBtn.addEventListener('click', () => {
+            paywallScreen.classList.add('opacity-0');
+            setTimeout(() => paywallScreen.classList.add('hidden'), 500);
+        });
 
         // ---------------- AUTHENTICATION LOGIC ----------------
         document.getElementById('googleLoginBtn').addEventListener('click', async () => {
@@ -525,7 +524,7 @@
                         displayName: user.displayName,
                         createdAt: Date.now(),
                         isPremium: false,
-                        history: [] // Init empty history
+                        history: [] 
                     });
                 }
                 closeAuthModal();
@@ -538,11 +537,9 @@
             }
         });
 
-        // প্রথমবার ব্যবহারকারী কি না তা চেক করার ফাংশন
         function checkFirstTimeGuide() {
             const hasSeen = localStorage.getItem('hasSeenGuide');
             if (!hasSeen) {
-                // অ্যানিমেশন যুক্ত হবে দৃষ্টি আকর্ষণ করার জন্য
                 btnUserGuide.classList.add('guide-attention-btn');
             }
         }
@@ -557,7 +554,7 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 document.getElementById('guestBadge').classList.add('hidden');
-                headerLoginBtn.classList.add('hidden'); // লগইন করার পর হেডার লগইন বাটন চলে যাবে
+                headerLoginBtn.classList.add('hidden'); 
                 logoutBtn.classList.remove('hidden');
                 
                 if(user.photoURL) {
@@ -571,7 +568,7 @@
                 updateUI();
             } else {
                 document.getElementById('guestBadge').classList.remove('hidden');
-                headerLoginBtn.classList.remove('hidden'); // লগইন না থাকলে হেডার লগইন বাটন দৃশ্যমান হবে
+                headerLoginBtn.classList.remove('hidden'); 
                 logoutBtn.classList.add('hidden');
                 document.getElementById('userNameDisplay').innerHTML = 'অপরিচিত ইউজার';
                 document.getElementById('trialTimerDisplay').textContent = 'লগইন করুন';
@@ -592,9 +589,8 @@
             const userRef = doc(db, "users", uid);
             let userSnap = await getDoc(userRef);
             currentUserData = userSnap.data();
-            userHistory = currentUserData.history || []; // Load specific user's history
+            userHistory = currentUserData.history || []; 
             
-            // Update User Name Display with Verified Badge if Premium
             let badgeHtml = '';
             if (currentUserData.isPremium) {
                 badgeHtml = `
@@ -609,32 +605,34 @@
 
             checkTrialStatus();
             if(timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(checkTrialStatus, 15000); // প্রতি ১৫ সেকেন্ড পর পর দ্রুত ট্রায়াল স্টেট চেক হবে যাতে কোনো লেট না হয়
+            timerInterval = setInterval(checkTrialStatus, 15000); 
         }
 
         function checkTrialStatus() {
             if (!currentUserData) return;
             const now = Date.now();
             const ageMs = now - currentUserData.createdAt;
-            // ৩ ঘণ্টা (৩ * ৬০ * ৬০ * ১০০০) মিলি সেকেন্ডস নির্ধারণ করা হয়েছে
-            const hours3Ms = 3 * 60 * 60 * 1000;
+            const hour1Ms = 1 * 60 * 60 * 1000; 
 
-            if (ageMs > hours3Ms && !currentUserData.isPremium) {
+            if (ageMs > hour1Ms && !currentUserData.isPremium) {
+                document.getElementById('paywallTitle').textContent = "ট্রায়াল শেষ!";
+                document.getElementById('paywallText').innerHTML = `আপনার <span class="font-bold text-[var(--text-primary)]">১ ঘণ্টার ফ্রি ট্রায়াল</span> শেষ হয়েছে। প্রেডিকশন চালিয়ে যেতে প্রিমিয়াম সাবস্ক্রিপশন নিন।`;
+                closePaywallBtn.classList.add('hidden'); 
                 paywallScreen.classList.remove('hidden');
                 setTimeout(() => paywallScreen.classList.remove('opacity-0'), 10);
+                
                 document.getElementById('trialTimerDisplay').textContent = "ট্রায়াল শেষ (Expired)";
                 document.getElementById('trialTimerDisplay').style.color = "#ff3366";
                 dashPremiumBtn.classList.remove('hidden');
             } else {
-                paywallScreen.classList.add('opacity-0');
-                setTimeout(() => paywallScreen.classList.add('hidden'), 500);
-                
                 if (currentUserData.isPremium) {
                     document.getElementById('trialTimerDisplay').textContent = "প্রিমিয়াম মেম্বার";
                     document.getElementById('trialTimerDisplay').style.color = "#00ff87";
                     dashPremiumBtn.classList.add('hidden');
+                    paywallScreen.classList.add('opacity-0');
+                    setTimeout(() => paywallScreen.classList.add('hidden'), 500);
                 } else {
-                    const remainingMs = hours3Ms - ageMs;
+                    const remainingMs = hour1Ms - ageMs;
                     const remHours = Math.floor(remainingMs / (1000 * 60 * 60));
                     const remMins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
                     document.getElementById('trialTimerDisplay').textContent = `ট্রায়াল বাকি: ${convertEngToBng(remHours)}ঘ ${convertEngToBng(remMins)}মি`;
@@ -654,31 +652,40 @@
 
         // ---------------- INPUT & HISTORY LOGIC ----------------
         async function feedOutcome(outcome) {
-            // ১. লগইন না থাকলে সরাসরি পপআপ আসবে (বাটন লকড বা ব্লকড থাকবে না, আগের মতো ওপেনলি কাজ করবে)
             if (!auth.currentUser || !currentUserData) {
                 openAuthModal();
                 return;
             }
 
-            // ২. ইনস্ট্যান্ট ট্রায়াল চেক (কোন প্রকার বিলম্ব এড়াতে বাটন প্রেসের সাথে সাথেই কড়া ভ্যালিডেশন)
             const ageMs = Date.now() - currentUserData.createdAt;
-            const hours3Ms = 3 * 3600 * 1000;
-            if (ageMs > hours3Ms && !currentUserData.isPremium) {
+            const hour1Ms = 1 * 3600 * 1000;
+            if (ageMs > hour1Ms && !currentUserData.isPremium) {
                 checkTrialStatus();
                 return;
             }
             
             userHistory.push(outcome);
-            if (userHistory.length > 1000) userHistory.shift(); // Keep max 1000
+            if (userHistory.length > 1000) userHistory.shift(); 
             
-            updateUI(); // Instant update
+            updateUI(); 
 
-            // Save ONLY to this user's Firebase Document
             try {
                 const userRef = doc(db, "users", auth.currentUser.uid);
                 await updateDoc(userRef, { history: userHistory });
             } catch(e) {
                 console.error("Firebase Sync Error", e);
+            }
+
+            if (!currentUserData.isPremium && userHistory.length >= REQUIRED_INPUTS) {
+                const remainingMs = hour1Ms - ageMs;
+                if (remainingMs > 0) {
+                    const remMins = Math.floor(remainingMs / (1000 * 60));
+                    document.getElementById('paywallTitle').textContent = "প্রিমিয়াম রিমাইন্ডার!";
+                    document.getElementById('paywallText').innerHTML = `আপনার ফ্রি ট্রায়ালের আর মাত্র <span class="font-bold text-[#00f2fe]">${convertEngToBng(remMins)} মিনিট</span> বাকি আছে। যেকোনো মুহূর্তে ট্রায়াল বন্ধ হয়ে যেতে পারে, নিরাপদ থাকতে এখনই প্রিমিয়াম অ্যাক্সেস নিন!`;
+                    closePaywallBtn.classList.remove('hidden'); 
+                    paywallScreen.classList.remove('hidden');
+                    setTimeout(() => paywallScreen.classList.remove('opacity-0'), 10);
+                }
             }
         }
 
@@ -697,19 +704,18 @@
         });
 
 
-        // --- HYBRID ALGORITHM (From index 20.html + Backtesting capability) ---
+        // --- ADAPTIVE BYPASS MET-ENGINE ALGORITHM ---
         function analyzeEngineState(history) {
             if(history.length < REQUIRED_INPUTS) return { prediction: 'WAIT', confidence: 0, wrongs: 0, safety: '--', mode: '--' };
 
             let consecutiveWrongs = 0;
             
-            // Re-simulate to calculate exact state at current step
             for (let i = REQUIRED_INPUTS; i <= history.length; i++) {
                 const subHist = history.slice(0, i);
                 const isCurrentStep = (i === history.length);
                 const n = subHist.length;
                 
-                // STEP 1: Anti-Streak Trend Following
+                // --- STEP 1: ANTI-STREAK FILTER (Trend Detection) ---
                 let currentStreak = 1;
                 for (let j = n - 1; j > 0; j--) {
                     if (subHist[j] === subHist[j - 1]) currentStreak++;
@@ -724,10 +730,10 @@
                 if (currentStreak >= STREAK_THRESHOLD) {
                     prediction = lastVal;
                     confidence = 85;
-                    mode = "ট্রেন্ড অনুসরণ (Trend Follow)";
+                    mode = "ট্রেন্ড অনুসরণ মোড (Trend Following)";
                 } 
                 else {
-                    // STEP 2: Depth Pattern Matching (Depth 5 to 2)
+                    // --- STEP 2: MULTI-LEVEL PATTERN DEPTH (Depth 5 to 2) ---
                     let weights = { 'B': 0, 'S': 0 };
                     let totalWeightFound = 0;
 
@@ -739,7 +745,7 @@
                             let currentPattern = subHist.slice(k, k + depth).join('');
                             if (currentPattern === targetPattern) {
                                 let nextValue = subHist[k + depth];
-                                let weight = Math.pow(depth, 2); // Exponential Weight
+                                let weight = Math.pow(depth, 2); 
                                 weights[nextValue] += weight;
                                 totalWeightFound += weight;
                             }
@@ -751,35 +757,58 @@
                         confidence = Math.max((Math.max(weights['B'], weights['S']) / totalWeightFound) * 100, 50);
                         mode = "প্যাটার্ন স্বীকৃতি (Pattern Recognition)";
                     } else {
-                        // Fallback Counter Psychology
+                        // Counter Psychology
                         prediction = lastVal === 'B' ? 'S' : 'B';
                         confidence = 55;
-                        mode = "কাউন্টার-সাইকোলজি (Counter-Psy)";
+                        mode = "কাউন্টার-সাইকোলজি (Counter-Psychology)";
                     }
                 }
 
-                // STEP 3: Strict Error Mitigation (Safety Flip)
+                // --- STEP 3: STRICT ERROR MITIGATION & ADAPTIVE BYPASS ---
                 let safetyLevel = "স্বাভাবিক (Normal)";
                 
                 if (consecutiveWrongs === 1) {
                     confidence = Math.max(50, confidence - 15);
                     safetyLevel = "সতর্কতা (Caution)";
                 } 
-                else if (consecutiveWrongs >= 2) {
-                    // The Magic Flip! Counter the platform's trap algorithm.
+                else if (consecutiveWrongs === 2) {
+                    // ১ম চাল ফ্লিপ (কোম্পানির বেসিক বিপরীত চাল ধরা)
                     prediction = prediction === 'B' ? 'S' : 'B';
-                    confidence = 90;
+                    confidence = 88;
                     mode = "সেফটি ফ্লিপ (Safety Flip Active)";
-                    safetyLevel = "বিপদ - ফ্লিপড (Flipped)";
+                    safetyLevel = "ঝুঁকি - ফ্লিপড (Flipped)";
+                }
+                else if (consecutiveWrongs === 3) {
+                    // মেটা-ফ্লিপ অ্যাক্টিভেশন: ডাবল-ব্লুফ ট্র্যাপ ভাঙার জন্য রিভার্স লজিক
+                    prediction = prediction; // আগের ফ্লিপটিকেই আবার ফ্লিপ ব্যাক করা হলো
+                    confidence = 92;
+                    mode = "মেটা-ফ্লিপ রিকভারি (Double-Bluff Bypass)";
+                    safetyLevel = "মেটা রিকভারি (Meta Recovery)";
+                }
+                else if (consecutiveWrongs >= 4) {
+                    // ডায়নামিক ক্যাওস প্রটেকশন (র্যান্ডম নয়েজ বাইপাস)
+                    prediction = 'SKIP';
+                    confidence = 0;
+                    mode = "ক্যাওস প্রটেকশন (Chaos Protection)";
+                    safetyLevel = "ঝুঁকি এড়াতে খেলবেন না (Skip Required)";
                 }
 
                 if (isCurrentStep) {
                     return { prediction, confidence, wrongs: consecutiveWrongs, safety: safetyLevel, mode };
                 } else {
-                    const actualOutcome = history[i]; // Test against the actual next value
+                    const actualOutcome = history[i]; 
                     if (actualOutcome !== undefined) {
-                        if (prediction === actualOutcome) consecutiveWrongs = 0;
-                        else consecutiveWrongs++;
+                        // যদি ইঞ্জিন 'SKIP' স্টেটমেন্টে থাকে, তাহলে পরবর্তী রাউন্ডে বাজি ধরা হয়নি, তাই এরর লজিক ফ্রিজ থাকবে
+                        if (prediction !== 'SKIP') {
+                            if (prediction === actualOutcome) {
+                                consecutiveWrongs = 0;
+                            } else {
+                                consecutiveWrongs++;
+                            }
+                        } else {
+                            // র্যান্ডম নয়েজ পার হওয়ার পর আবার রিক্যালিব্রেশন
+                            consecutiveWrongs = 0; 
+                        }
                     }
                 }
             }
@@ -794,7 +823,7 @@
             if(userHistory.length === 0) {
                 tapeContainer.innerHTML = '<span class="text-xs text-muted p-2 font-semibold mx-auto">ফলাফল যোগ করা শুরু করুন...</span>';
             } else {
-                let displayHist = userHistory.slice(-25); // Show last 25 elements
+                let displayHist = userHistory.slice(-25); 
                 displayHist.forEach(item => {
                     const badge = document.createElement('div');
                     badge.className = 'history-badge';
@@ -831,10 +860,12 @@
                 predModeDisplay.innerText = state.mode;
                 predModeDisplay.classList.remove('hidden');
                 
-                if (state.mode.includes('সেফটি ফ্লিপ')) {
+                if (state.mode.includes('সেফটি ফ্লিপ') || state.mode.includes('মেটা-ফ্লিপ')) {
                     predModeDisplay.className = "bg-red-500/20 px-4 py-1.5 rounded-full text-xs font-bold text-[#ff3366] border border-red-500/30 mb-6";
                 } else if (state.mode.includes('ট্রেন্ড')) {
                     predModeDisplay.className = "bg-orange-500/20 px-4 py-1.5 rounded-full text-xs font-bold text-orange-400 border border-orange-500/30 mb-6";
+                } else if (state.mode.includes('ক্যাওস')) {
+                    predModeDisplay.className = "bg-red-500/30 px-4 py-1.5 rounded-full text-xs font-bold text-[#ff3366] border border-red-500/50 mb-6 animate-pulse";
                 } else {
                     predModeDisplay.className = "bg-[#00f2fe]/10 px-4 py-1.5 rounded-full text-xs font-bold text-[#00f2fe] border border-[#00f2fe]/30 mb-6";
                 }
@@ -847,11 +878,23 @@
                     outBox.classList.add('pred-active-s');
                     scanningRing.classList.replace('border-gray-400/30', 'border-[#00ff87]/30');
                     outText.innerHTML = 'ছোট<br><span class="text-xl opacity-80">(SMALL)</span>';
+                } else if (state.prediction === 'SKIP') {
+                    outBox.classList.add('pred-active-skip');
+                    scanningRing.classList.replace('border-gray-400/30', 'border-[#ff3366]/30');
+                    outText.innerHTML = 'বিরতি<br><span class="text-xl opacity-80">(SKIP)</span>';
                 }
 
-                document.getElementById('statConfidence').innerText = state.confidence > 0 ? convertEngToBng(Math.round(state.confidence)) + '%' : '--%';
+                document.getElementById('statConfidence').innerText = state.confidence > 0 ? convertEngToBng(Math.round(state.confidence)) + '%' : '০%';
                 document.getElementById('statSafety').innerText = state.safety;
-                document.getElementById('statSafety').style.color = state.safety.includes('বিপদ') || state.safety.includes('সতর্কতা') ? '#ff3366' : '#00ff87';
+                
+                if (state.safety.includes('বিপদ') || state.safety.includes('সতর্কতা') || state.safety.includes('ঝুঁকি')) {
+                    document.getElementById('statSafety').style.color = '#ff3366';
+                } else if (state.safety.includes('মেটা')) {
+                    document.getElementById('statSafety').style.color = '#f5af19';
+                } else {
+                    document.getElementById('statSafety').style.color = '#00ff87';
+                }
+                
                 document.getElementById('statErrors').innerText = convertEngToBng(state.wrongs);
             }
         }
