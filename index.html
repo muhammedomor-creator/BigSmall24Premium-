@@ -177,6 +177,79 @@
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col items-center justify-center relative pb-10">
+    
+/* এই ওয়েবসাইটটি লোকানোর জন্য, ১৮৪ নম্বর লাইন থেকে, ২৪৭ নম্বর লাইন পর্যন্ত একটি কোড বসানো হয়েছে, সেটি ডিলিট করলে ওয়েবসাইটটি আবার আগের মত হবে। */
+    
+
+<div id="maintenance-overlay">
+    <div class="maintenance-box">
+        <h1>এই ওয়েবসাইটটি বর্তমানে বন্ধ করে দেওয়া হয়েছে।</h1>
+        <p>দয়া করে ডেভলপারের সাথে যোগাযোগ করুন।</p>
+        <p class="email">ডেভলপার ইমেইল: <a href="mailto:alkhwarizmi33.o@gmail.com">alkhwarizmi33.o@gmail.com</a></p>
+    </div>
+</div>
+
+<style>
+/* মূল ওয়েবসাইটের সবকিছু লুকিয়ে ফেলার জন্য এবং এই বার্তাটি স্ক্রিন জুড়ে দেখানোর জন্য CSS */
+#maintenance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f9fa; /* হালকা ব্যাকগ্রাউন্ড কালার */
+    z-index: 999999; /* যেন এটি ওয়েবসাইটের অন্য সব উপাদানের উপরে থাকে */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.maintenance-box {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+}
+
+.maintenance-box h1 {
+    color: #dc3545; /* লাল রঙের সতর্কবার্তা */
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.maintenance-box p {
+    color: #6c757d;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.maintenance-box .email {
+    font-weight: bold;
+    color: #333;
+}
+
+.maintenance-box a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.maintenance-box a:hover {
+    text-decoration: underline;
+}
+
+/* ওয়েবসাইটের মূল স্ক্রলবার বন্ধ করার জন্য */
+body {
+    overflow: hidden !important;
+}
+</style>
+
+    
 
     <!-- Global Loader -->
     <div id="globalLoader" class="fixed inset-0 modal-overlay flex flex-col items-center justify-center z-[10000] hidden">
